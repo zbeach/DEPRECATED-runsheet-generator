@@ -34,23 +34,31 @@ with open('/Users/zack/Desktop/EXPORT.csv', 'r') as csvfile:
     LAST_NAME_COLUMN = 0
     FIRST_NAME_COLUMN = 1
     POSITION_COLUMN = 2
-    START_TIME_COLUMN = 3
-    END_TIME_COLUMN = 4
-    CATEGORY_COLUMN = 5
+    POSITION_NUMBER_COLUMN = 3
+    START_TIME_COLUMN = 4
+    END_TIME_COLUMN = 5
+    CATEGORY_COLUMN = 6
 
     # Initialize with default value of "" for every element
-    shifts = [["" for x in range(6)] for x in range(allShifts.qsize())]
+    shifts = [["" for x in range(7)] for x in range(allShifts.qsize())]
     for i in shifts:
         current = allShifts.get()
         i[LAST_NAME_COLUMN] = current[LAST_NAME_CSV_COLUMN]
         i[FIRST_NAME_COLUMN] = current[FIRST_NAME_CSV_COLUMN]
         i[POSITION_COLUMN] = current[POSITION_CSV_COLUMN]
+        i[POSITION_NUMBER_COLUMN] = 0
         i[START_TIME_COLUMN] = current[START_TIME_CSV_COLUMN]
         i[END_TIME_COLUMN] = current[END_TIME_CSV_COLUMN]
         i[CATEGORY_COLUMN] = current[CATEGORY_CSV_COLUMN]
 
-    # Sort shifts for runsheet presentation
-    temp = [["" for x in range(6)] for x in range(len(shifts))]
+    # Set position numbers
+    INDEX_AFTER_END_OF_POSITION_NUMBER = 2
+    for i in shifts:
+        if (i[POSITION_COLUMN] != "Training") and (i[POSITION_COLUMN] != ""):
+            i[POSITION_NUMBER_COLUMN] = int(i[POSITION_COLUMN][:INDEX_AFTER_END_OF_POSITION_NUMBER])
+
+    # Sort shifts by category
+    temp = [["" for x in range(7)] for x in range(len(shifts))]
     j = 0 # Position in temp
     for i in shifts:
         if i[CATEGORY_COLUMN] == "A":
@@ -77,6 +85,10 @@ with open('/Users/zack/Desktop/EXPORT.csv', 'r') as csvfile:
             temp[j] = i
             j += 1
     shifts = temp
+
+    print(shifts)
+    # Sort shifts by position
+
 
     # Add category separators
     # Generate XLSX
