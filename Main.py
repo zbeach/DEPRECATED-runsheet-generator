@@ -50,8 +50,33 @@ with open('/Users/zack/Desktop/EXPORT.csv', 'r') as csvfile:
         i[CATEGORY_COLUMN] = current[CATEGORY_CSV_COLUMN]
 
     # Sort shifts for runsheet presentation
-    temp = shifts[:] # temp is initalized as a copy of shifts
-
+    temp = [["" for x in range(6)] for x in range(len(shifts))]
+    j = 0 # Position in temp
+    for i in shifts:
+        if i[CATEGORY_COLUMN] == "A":
+            temp[j] = i
+            j += 1
+    for i in shifts:
+        if i[CATEGORY_COLUMN] == "B":
+            temp[j] = i
+            j += 1
+    for i in shifts:
+        if i[CATEGORY_COLUMN] == "C":
+            temp[j] = i
+            j += 1
+    for i in shifts:
+        if i[CATEGORY_COLUMN] == "D":
+            temp[j] = i
+            j += 1
+    for i in shifts:
+        if i[CATEGORY_COLUMN] == "E":
+            temp[j] = i
+            j += 1
+    for i in shifts:
+        if i[POSITION_COLUMN] == "Training":
+            temp[j] = i
+            j += 1
+    shifts = temp
 
     # Add category separators
     # Generate XLSX
