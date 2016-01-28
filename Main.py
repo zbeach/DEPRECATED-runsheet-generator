@@ -1,5 +1,14 @@
 import csv
-import queue
+import time
+import shift
+
+def toPositionNumber(positionName):
+    # Set position numbers
+    INDEX_AFTER_END_OF_POSITION_NUMBER = 2
+    if (positionName != "Training") and (positionName != ""):
+        return int(positionName[:INDEX_AFTER_END_OF_POSITION_NUMBER])
+    else:
+        return 0
 
 with open('/Users/zack/Desktop/EXPORT.csv', 'r') as csvfile:
     r = csv.reader(csvfile, dialect=csv.excel)
@@ -30,123 +39,17 @@ with open('/Users/zack/Desktop/EXPORT.csv', 'r') as csvfile:
                     allShifts.append(row)
 
     # Create list of shifts for runsheet
-    # Set column constants
-    LAST_NAME_COLUMN = 0
-    FIRST_NAME_COLUMN = 1
-    POSITION_COLUMN = 2
-    POSITION_NUMBER_COLUMN = 3
-    START_TIME_COLUMN = 4
-    END_TIME_COLUMN = 5
-    CATEGORY_COLUMN = 6
+    shifts = []
+    for i in allShifts:
+        currentShift = shift.shift(toPositionNumber(i[POSITION_CSV_COLUMN]), \
+                             i[POSITION_CSV_COLUMN], \
+                             i[CATEGORY_CSV_COLUMN], \
+                             i[LAST_NAME_CSV_COLUMN], \
+                             i[FIRST_NAME_CSV_COLUMN], \
+                             i[START_TIME_CSV_COLUMN], \
+                             i[END_TIME_CSV_COLUMN])
+        shifts.append(currentShift)
 
-    # Initialize with default value of "" for every element
-    shifts = [["" for x in range(7)] for x in range(len(allShifts))]
-    for i in range(len(shifts)):
-        current = allShifts[i]
-        shifts[i][LAST_NAME_COLUMN] = current[LAST_NAME_CSV_COLUMN]
-        shifts[i][FIRST_NAME_COLUMN] = current[FIRST_NAME_CSV_COLUMN]
-        shifts[i][POSITION_COLUMN] = current[POSITION_CSV_COLUMN]
-        shifts[i][POSITION_NUMBER_COLUMN] = 0
-        shifts[i][START_TIME_COLUMN] = current[START_TIME_CSV_COLUMN]
-        shifts[i][END_TIME_COLUMN] = current[END_TIME_CSV_COLUMN]
-        shifts[i][CATEGORY_COLUMN] = current[CATEGORY_CSV_COLUMN]
-
-    # Set position numbers
-    INDEX_AFTER_END_OF_POSITION_NUMBER = 2
-    for i in shifts:
-        if (i[POSITION_COLUMN] != "Training") and (i[POSITION_COLUMN] != ""):
-            i[POSITION_NUMBER_COLUMN] = int(i[POSITION_COLUMN][:INDEX_AFTER_END_OF_POSITION_NUMBER])
-
-    # Sort shifts by category
-    temp = [["" for x in range(7)] for x in range(len(shifts))]
-    j = 0 # Position in temp
-    for i in shifts:
-        if i[CATEGORY_COLUMN] == "A":
-            temp[j] = i
-            j += 1
-    for i in shifts:
-        if i[CATEGORY_COLUMN] == "B":
-            temp[j] = i
-            j += 1
-    for i in shifts:
-        if i[CATEGORY_COLUMN] == "C":
-            temp[j] = i
-            j += 1
-    for i in shifts:
-        if i[CATEGORY_COLUMN] == "D":
-            temp[j] = i
-            j += 1
-    for i in shifts:
-        if i[CATEGORY_COLUMN] == "E":
-            temp[j] = i
-            j += 1
-    for i in shifts:
-        if i[POSITION_COLUMN] == "Training":
-            temp[j] = i
-            j += 1
-    shifts = temp
-
-    # Sort shifts by position
-    numberOfShiftsInCurrentCategory = 0
-    for i in shifts:
-        if i[CATEGORY_COLUMN] == "A":
-            numberOfShiftsInCurrentCategory += 1
-
-    temp = [["" for x in range(7)] for x in range(len(shifts))]
-    j = 0 # Position in temp
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 10:
-            temp[j] = shifts[i]
-            j += 1
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 11:
-            temp[j] = shifts[i]
-            j += 1
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 12:
-            temp[j] = shifts[i]
-            j += 1
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 20:
-            temp[j] = shifts[i]
-            j += 1
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 30:
-            temp[j] = shifts[i]
-            j += 1
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 31:
-            temp[j] = shifts[i]
-            j += 1
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 40:
-            temp[j] = shifts[i]
-            j += 1
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 41:
-            temp[j] = shifts[i]
-            j += 1
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 50:
-            temp[j] = shifts[i]
-            j += 1
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 51:
-            temp[j] = shifts[i]
-            j += 1
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 60:
-            temp[j] = shifts[i]
-            j += 1
-    for i in range(numberOfShiftsInCurrentCategory):
-        if shifts[i][POSITION_NUMBER_COLUMN] == 61:
-            temp[j] = shifts[i]
-            j += 1
-    shifts = temp
-
-    for i in shifts:
-        print(i)
-
-
+    # Sort by category, then by position
     # Add category separators
     # Generate XLSX
