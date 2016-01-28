@@ -19,15 +19,15 @@ with open('/Users/zack/Desktop/EXPORT.csv', 'r') as csvfile:
     # Runsheet date
     inputDate = "1/28/2016" # Test
 
-    # Queue of all shifts on given date
-    allShifts = queue.Queue()
+    # All shifts on given date
+    allShifts = []
 
-    # Add all shifts from date to queue
+    # Add all shifts from date in CSV file to list
     for row in r:
         if row[DATE_CSV_COLUMN] == inputDate:
             # Only add shifts that are not Operations Supervisor or Mega Bus Connect
             if (row[POSITION_CSV_COLUMN] != "Operations Supervisor") and (row[POSITION_CSV_COLUMN] != "Mega Bus Connect"):
-                    allShifts.put(row)
+                    allShifts.append(row)
 
     # Create list of shifts for runsheet
     # Set column constants
@@ -40,16 +40,16 @@ with open('/Users/zack/Desktop/EXPORT.csv', 'r') as csvfile:
     CATEGORY_COLUMN = 6
 
     # Initialize with default value of "" for every element
-    shifts = [["" for x in range(7)] for x in range(allShifts.qsize())]
-    for i in shifts:
-        current = allShifts.get()
-        i[LAST_NAME_COLUMN] = current[LAST_NAME_CSV_COLUMN]
-        i[FIRST_NAME_COLUMN] = current[FIRST_NAME_CSV_COLUMN]
-        i[POSITION_COLUMN] = current[POSITION_CSV_COLUMN]
-        i[POSITION_NUMBER_COLUMN] = 0
-        i[START_TIME_COLUMN] = current[START_TIME_CSV_COLUMN]
-        i[END_TIME_COLUMN] = current[END_TIME_CSV_COLUMN]
-        i[CATEGORY_COLUMN] = current[CATEGORY_CSV_COLUMN]
+    shifts = [["" for x in range(7)] for x in range(len(allShifts))]
+    for i in range(len(shifts)):
+        current = allShifts[i]
+        shifts[i][LAST_NAME_COLUMN] = current[LAST_NAME_CSV_COLUMN]
+        shifts[i][FIRST_NAME_COLUMN] = current[FIRST_NAME_CSV_COLUMN]
+        shifts[i][POSITION_COLUMN] = current[POSITION_CSV_COLUMN]
+        shifts[i][POSITION_NUMBER_COLUMN] = 0
+        shifts[i][START_TIME_COLUMN] = current[START_TIME_CSV_COLUMN]
+        shifts[i][END_TIME_COLUMN] = current[END_TIME_CSV_COLUMN]
+        shifts[i][CATEGORY_COLUMN] = current[CATEGORY_CSV_COLUMN]
 
     # Set position numbers
     INDEX_AFTER_END_OF_POSITION_NUMBER = 2
