@@ -1,7 +1,7 @@
 import csv
-import time
 import shift
 
+# Extracts position number from position name
 def toPositionNumber(positionName):
     # Set position numbers
     INDEX_AFTER_END_OF_POSITION_NUMBER = 2
@@ -10,6 +10,31 @@ def toPositionNumber(positionName):
     else:
         return 0
 
+# Creates shifts list for given date from CSV data
+def createShifts(r, date):
+    data = [] # Data for all shifts on given date
+    # Add all shifts from date in CSV file to list
+    for row in r:
+        if row[DATE_CSV_COLUMN] == date:
+            # Only add shifts that are not Operations Supervisor or Mega Bus Connect
+            if (row[POSITION_CSV_COLUMN] != "Operations Supervisor") and (row[POSITION_CSV_COLUMN] != "Mega Bus Connect"):
+                    data.append(row)
+
+    # Create list of shift objects
+    shifts = []
+    for i in data:
+        currentShift = shift.shift(toPositionNumber(i[POSITION_CSV_COLUMN]), \
+                             i[POSITION_CSV_COLUMN], \
+                             i[CATEGORY_CSV_COLUMN], \
+                             i[LAST_NAME_CSV_COLUMN], \
+                             i[FIRST_NAME_CSV_COLUMN], \
+                             i[START_TIME_CSV_COLUMN], \
+                             i[END_TIME_CSV_COLUMN])
+        shifts.append(currentShift)
+    return shifts
+
+
+########## Main ##########
 with open('/Users/zack/Desktop/EXPORT.csv', 'r') as csvfile:
     r = csv.reader(csvfile, dialect=csv.excel)
 
@@ -28,27 +53,12 @@ with open('/Users/zack/Desktop/EXPORT.csv', 'r') as csvfile:
     # Runsheet date
     inputDate = "1/28/2016" # Test
 
-    # All shifts on given date
-    allShifts = []
-
-    # Add all shifts from date in CSV file to list
-    for row in r:
-        if row[DATE_CSV_COLUMN] == inputDate:
-            # Only add shifts that are not Operations Supervisor or Mega Bus Connect
-            if (row[POSITION_CSV_COLUMN] != "Operations Supervisor") and (row[POSITION_CSV_COLUMN] != "Mega Bus Connect"):
-                    allShifts.append(row)
-
     # Create list of shifts for runsheet
-    shifts = []
-    for i in allShifts:
-        currentShift = shift.shift(toPositionNumber(i[POSITION_CSV_COLUMN]), \
-                             i[POSITION_CSV_COLUMN], \
-                             i[CATEGORY_CSV_COLUMN], \
-                             i[LAST_NAME_CSV_COLUMN], \
-                             i[FIRST_NAME_CSV_COLUMN], \
-                             i[START_TIME_CSV_COLUMN], \
-                             i[END_TIME_CSV_COLUMN])
-        shifts.append(currentShift)
+    shifts = createShifts(r, inputDate)
+
+    for i in shifts:
+        print(i.toString())
+
 
     # Sort by category, then by position
     # Add category separators
