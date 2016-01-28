@@ -86,16 +86,67 @@ with open('/Users/zack/Desktop/EXPORT.csv', 'r') as csvfile:
             j += 1
     shifts = temp
 
-    print(shifts)
     # Sort shifts by position
+    numberOfShiftsInCurrentCategory = 0
+    for i in shifts:
+        if i[CATEGORY_COLUMN] == "A":
+            numberOfShiftsInCurrentCategory += 1
+
+    temp = [["" for x in range(7)] for x in range(len(shifts))]
+    j = 0 # Position in temp
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 10:
+            temp[j] = shifts[i]
+            j += 1
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 11:
+            temp[j] = shifts[i]
+            j += 1
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 12:
+            temp[j] = shifts[i]
+            j += 1
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 20:
+            temp[j] = shifts[i]
+            j += 1
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 30:
+            temp[j] = shifts[i]
+            j += 1
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 31:
+            temp[j] = shifts[i]
+            j += 1
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 40:
+            temp[j] = shifts[i]
+            j += 1
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 41:
+            temp[j] = shifts[i]
+            j += 1
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 50:
+            temp[j] = shifts[i]
+            j += 1
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 51:
+            temp[j] = shifts[i]
+            j += 1
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 60:
+            temp[j] = shifts[i]
+            j += 1
+    for i in range(numberOfShiftsInCurrentCategory):
+        if shifts[i][POSITION_NUMBER_COLUMN] == 61:
+            temp[j] = shifts[i]
+            j += 1
+    shifts = temp
+
+    for i in shifts:
+        print(i)
 
 
     # Add category separators
     # Generate XLSX
-
-
-
-
-
-
-
