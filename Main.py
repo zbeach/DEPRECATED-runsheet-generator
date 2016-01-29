@@ -35,7 +35,7 @@ def createShifts(r, date):
 
 
 ########## Main ##########
-with open('/Users/zack/Desktop/EXPORT.csv', 'r') as csvfile:
+with open('data/EXPORT.CSV', 'r') as csvfile:
     r = csv.reader(csvfile, dialect=csv.excel)
 
     # First row of the CSV contains column headers
