@@ -7,7 +7,7 @@ class shift:
         self.positionNumber = positionNumber
         self.position = position
         if self.position == "Training":
-            self.category = "Training"
+            self.category = "T"
         else:
             self.category = category
         self.lastName = lastName
@@ -15,6 +15,14 @@ class shift:
         self.startTime = startTime
         self.endTime = endTime
 
+    # Returns a string representation of the shift
     def toString(self):
-        return str(self.positionNumber) + self.category + ", " + \
+        # If position is Training, set the output position number to "00"
+        if self.positionNumber == 0:
+            positionNumberStr = "00"
+        # Otherwise, just convert the position number to a string
+        else:
+            positionNumberStr = str(self.positionNumber)
+
+        return positionNumberStr + self.category + ", " + \
                self.firstName + " " + self.lastName + ", " + self.startTime + " - " + self.endTime
