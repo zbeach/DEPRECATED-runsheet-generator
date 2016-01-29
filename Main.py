@@ -35,6 +35,7 @@ def createShifts(r, date):
 
 
 ########## Main ##########
+
 with open('data/EXPORT.CSV', 'r') as csvfile:
     r = csv.reader(csvfile, dialect=csv.excel)
 
