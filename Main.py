@@ -84,7 +84,7 @@ def getNumberOfCategories(shifts):
             previousCategory = shifts[i].category
             numberOfCategories += 1
 
-# Gets index for first shifts of each category in list
+# Gets index for first shift of each category in list
 def getCategoryIndices(shifts):
     indices = [0]
     previousCategory = shifts[0].category

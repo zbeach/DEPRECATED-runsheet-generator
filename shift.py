@@ -12,8 +12,10 @@ class shift:
             self.category = category
         self.lastName = lastName
         self.firstName = firstName
-        self.startTime = startTime
-        self.endTime = endTime
+        self.startTime = time.strptime(startTime,  "%I:%M %p")
+        self.startTimeStr = str(self.startTime.tm_hour) + ":" + str(self.startTime.tm_min).zfill(2)
+        self.endTime = time.strptime(endTime, "%I:%M %p")
+        self.endTimeStr = str(self.endTime.tm_hour) + ":" + str(self.endTime.tm_min).zfill(2)
 
     # Returns a string representation of the shift
     def toString(self):
@@ -25,4 +27,5 @@ class shift:
             positionNumberStr = str(self.positionNumber)
 
         return positionNumberStr + self.category + ", " + \
-               self.firstName + " " + self.lastName + ", " + self.startTime + " - " + self.endTime
+               self.firstName + " " + self.lastName + ", " + \
+               self.startTimeStr + "-" + self.endTimeStr
