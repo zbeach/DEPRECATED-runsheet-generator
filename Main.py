@@ -36,13 +36,13 @@ def createShifts(r, date):
 # Sorts list of shifts
 def sort(shifts):
     # Sort by category
-    shifts = sortbyCategory(shifts)
+    shifts = sortByCategory(shifts)
     # Sort by position within category
-
+    shifts = sortByPositionWithinCategory(shifts)
     return shifts
 
-# Sort list of shifts by category
-def sortbyCategory(shifts):
+# Sorts list of shifts by category
+def sortByCategory(shifts):
     for i in range(len(shifts)):
         for j in range(len(shifts)):
             if shifts[j].category > shifts[i].category:
@@ -50,6 +50,49 @@ def sortbyCategory(shifts):
                 shifts[i] = shifts[j]
                 shifts[j] = temp
     return shifts
+
+# Sorts list of shifts by position within category
+def sortByPositionWithinCategory(shiftsIn):
+    numberOfCategories = getNumberOfCategories(shiftsIn)
+    categoryIndices = getCategoryIndices(shiftsIn)
+    shiftsOut = []
+    for i in range(len(categoryIndices)):
+        start = categoryIndices[i]
+        if i == len(categoryIndices) - 1:
+            end = len(categoryIndices)
+        else:
+            end = categoryIndices[i + 1]
+        shiftsOut = shiftsOut + (sortByPosition(shiftsIn[start:end]))
+    return shiftsOut
+
+# Sorts list of shifts by position
+def sortByPosition(shiftsInCategory):
+    for i in range(len(shiftsInCategory)):
+        for j in range(len(shiftsInCategory)):
+            if shiftsInCategory[j].positionNumber > shiftsInCategory[i].positionNumber:
+                temp = shiftsInCategory[i]
+                shiftsInCategory[i] = shiftsInCategory[j]
+                shiftsInCategory[j] = temp
+    return shiftsInCategory
+
+# Gets number of categories in shifts list
+def getNumberOfCategories(shifts):
+    numberOfCategories = 0
+    previousCategory = '#'
+    for i in range(len(shifts)):
+        if shifts[i].category != previousCategory:
+            previousCategory = shifts[i].category
+            numberOfCategories += 1
+
+# Gets index for first shifts of each category in list
+def getCategoryIndices(shifts):
+    indices = [0]
+    previousCategory = shifts[0].category
+    for i in range(len(shifts)):
+        if shifts[i].category != previousCategory:
+            previousCategory = shifts[i].category
+            indices.append(i)
+    return indices
 
 
 ########## Main ##########
@@ -77,7 +120,6 @@ with open('data/EXPORT.CSV', 'r') as csvfile:
 
     # Sort shifts
     shifts = sort(shifts)
-
     for i in range(len(shifts)):
         print(shifts[i].toString())
 
