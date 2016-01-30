@@ -33,6 +33,24 @@ def createShifts(r, date):
         shifts.append(currentShift)
     return shifts
 
+# Sorts list of shifts
+def sort(shifts):
+    # Sort by category
+    shifts = sortbyCategory(shifts)
+    # Sort by position within category
+
+    return shifts
+
+# Sort list of shifts by category
+def sortbyCategory(shifts):
+    for i in range(len(shifts)):
+        for j in range(len(shifts)):
+            if shifts[j].category > shifts[i].category:
+                temp = shifts[i]
+                shifts[i] = shifts[j]
+                shifts[j] = temp
+    return shifts
+
 
 ########## Main ##########
 
@@ -57,10 +75,11 @@ with open('data/EXPORT.CSV', 'r') as csvfile:
     # Create list of shifts for runsheet
     shifts = createShifts(r, inputDate)
 
-    for i in shifts:
-        print(i.toString())
+    # Sort shifts
+    shifts = sort(shifts)
 
+    for i in range(len(shifts)):
+        print(shifts[i].toString())
 
-    # Sort by category, then by position
     # Add category separators
     # Generate XLSX
