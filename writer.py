@@ -59,7 +59,7 @@ def writeRunsheet(shifts, worksheet):
                 worksheet.write(row - 1, 0, shifts[i].category)
         worksheet.write(row, 1, shifts[i].lastName)
         worksheet.write(row, 2, shifts[i].firstName)
-        worksheet.write(row, 3, shifts[i].position)
-        worksheet.write(row, 4, shifts[i].startTimeStr)
-        worksheet.write(row, 5, shifts[i].endTimeStr)
+        worksheet.write(row, 4, shifts[i].position)
+        worksheet.write(row, 5, shifts[i].startTimeStr)
+        worksheet.write(row, 6, shifts[i].endTimeStr)
         row += 1
