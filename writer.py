@@ -1,22 +1,53 @@
 import xlsxwriter
+import time
 
 # Generates the runsheet workbook
 def makeWorkbook(shifts):
-    date = formatDateStr(shifts[0].dateStr)
+    fileDateStr = formatDateStrForFilename(shifts[0].dateStr)
+    headerDateStr = formatDateStrForHeader(shifts[0].dateStr)
 
-    workbook = xlsxwriter.Workbook("data/Runsheet " + date + ".xlsx")
+    workbook = xlsxwriter.Workbook("data/Runsheet " + fileDateStr + ".xlsx")
     worksheet = workbook.add_worksheet()
 
     # Write shifts to worksheet
-    writeRunsheet(shifts, worksheet)
+    #writeRunsheet(shifts, worksheet)
+
+    addRunsheetHeader(worksheet, fileDateStr)
+    addColumnHeaders(worksheet)
+
+    #TEST
+    worksheet.write(2, 0, headerDateStr)
 
     workbook.close()
 
 # Replaces forward slashes with hyphens in date string
-def formatDateStr(dateStr):
+def formatDateStrForFilename(dateStr):
     dateStr = dateStr.replace('/', '-')
     return dateStr
 
+# Returns provided date in header format
+def formatDateStrForHeader(dateStr):
+    date = time.strptime(dateStr, "%m/%d/%Y")
+    return time.strftime("%A %B %d, %Y", date)
+
+# Writes runsheet header
+def addRunsheetHeader(worksheet, date):
+    worksheet.write(0, 0, "Radford Transit")
+    worksheet.write(1, 0, date)
+    worksheet.write(2, 0, None)
+
+# Adds column headers
+def addColumnHeaders(worksheet):
+    worksheet.write(3, 1, "Last Name")
+    worksheet.write(3, 2, "First Name")
+    worksheet.write(3, 3, "Bus #")
+    worksheet.write(3, 4, "Route")
+    worksheet.write(3, 5, "Start Time")
+    worksheet.write(3, 6, "End Time")
+    worksheet.write(3, 7, "Shift Changes")
+
+
+'''
 # Writes shifts to worksheet
 def writeRunsheet(shifts, worksheet):
     row = 0
@@ -33,3 +64,4 @@ def writeRunsheet(shifts, worksheet):
         worksheet.write(row, 4, shifts[i].startTimeStr)
         worksheet.write(row, 5, shifts[i].endTimeStr)
         row += 1
+'''
