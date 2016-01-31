@@ -10,7 +10,7 @@ def makeWorkbook(shifts):
     worksheet = workbook.add_worksheet()
 
     # Write shifts to worksheet
-    #writeRunsheet(shifts, worksheet)
+    writeRunsheet(shifts, worksheet)
 
     addRunsheetHeader(worksheet, fileDateStr)
     addColumnHeaders(worksheet)
@@ -47,12 +47,11 @@ def addColumnHeaders(worksheet):
     worksheet.write(3, 7, "Shift Changes")
 
 
-'''
 # Writes shifts to worksheet
 def writeRunsheet(shifts, worksheet):
-    row = 0
+    row = 4
     worksheet.write(row, 0, shifts[0].category)
-    row = 1
+    row = 5
     for i in range(0, len(shifts)):
         if i > 0:
             if shifts[i].startTime.tm_hour > shifts[i - 1].startTime.tm_hour:
@@ -64,4 +63,3 @@ def writeRunsheet(shifts, worksheet):
         worksheet.write(row, 4, shifts[i].startTimeStr)
         worksheet.write(row, 5, shifts[i].endTimeStr)
         row += 1
-'''
