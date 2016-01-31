@@ -4,7 +4,6 @@ import time
 # Generates the runsheet workbook
 def makeWorkbook(shifts):
     fileDateStr = formatDateStrForFilename(shifts[0].dateStr)
-    headerDateStr = formatDateStrForHeader(shifts[0].dateStr)
 
     workbook = xlsxwriter.Workbook("data/Runsheet " + fileDateStr + ".xlsx")
     worksheet = workbook.add_worksheet()
@@ -12,11 +11,11 @@ def makeWorkbook(shifts):
     # Write shifts to worksheet
     writeRunsheet(shifts, worksheet)
 
-    addRunsheetHeader(worksheet, fileDateStr)
+    addRunsheetHeader(worksheet, shifts[0].dateStr)
     addColumnHeaders(worksheet)
 
-    #TEST
-    worksheet.write(2, 0, headerDateStr)
+    # Merge cells where needed
+    mergeCells(worksheet)
 
     workbook.close()
 
@@ -31,9 +30,11 @@ def formatDateStrForHeader(dateStr):
     return time.strftime("%A %B %d, %Y", date)
 
 # Writes runsheet header
-def addRunsheetHeader(worksheet, date):
+def addRunsheetHeader(worksheet, dateStr):
+    headerDateStr = formatDateStrForHeader(dateStr)
+
     worksheet.write(0, 0, "Radford Transit")
-    worksheet.write(1, 0, date)
+    worksheet.write(1, 0, headerDateStr)
     worksheet.write(2, 0, None)
 
 # Adds column headers
@@ -63,3 +64,9 @@ def writeRunsheet(shifts, worksheet):
         worksheet.write(row, 5, shifts[i].startTimeStr)
         worksheet.write(row, 6, shifts[i].endTimeStr)
         row += 1
+
+# Merges cells where needed
+def mergeCells(worksheet):
+    worksheet.merge_range('A1:I1', '')
+    worksheet.merge_range('A2:I2', '')
+    worksheet.merge_range('H4:I4', '')
