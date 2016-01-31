@@ -39,6 +39,8 @@ def sort(shifts):
     shifts = sortByCategory(shifts)
     # Sort by position within category
     shifts = sortByPositionWithinCategory(shifts)
+    # Separate by hour
+    shifts = sortByHour(shifts)
     return shifts
 
 # Sorts list of shifts by category
@@ -93,6 +95,17 @@ def getCategoryIndices(shifts):
             previousCategory = shifts[i].category
             indices.append(i)
     return indices
+
+# Separates shifts by hour
+def sortByHour(shifts):
+    for i in range(len(shifts)):
+        for j in range(i, len(shifts) - 1):
+            if shifts[j].startTime.tm_hour > shifts[j + 1].startTime.tm_hour:
+                temp = shifts[j + 1]
+                shifts[j + 1] = shifts[j]
+                shifts[j] = temp
+
+    return shifts
 
 
 ########## Main ##########
