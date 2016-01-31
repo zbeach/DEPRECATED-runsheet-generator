@@ -19,9 +19,17 @@ def formatDateStr(dateStr):
 
 # Writes shifts to worksheet
 def writeRunsheet(shifts, worksheet):
-    for i in range(len(shifts)):
-        worksheet.write(i, 0, shifts[i].lastName)
-        worksheet.write(i, 1, shifts[i].firstName)
-        worksheet.write(i, 2, shifts[i].position)
-        worksheet.write(i, 3, shifts[i].startTimeStr)
-        worksheet.write(i, 4, shifts[i].endTimeStr)
+    row = 0
+    worksheet.write(row, 0, shifts[0].category)
+    row = 1
+    for i in range(0, len(shifts)):
+        if i > 0:
+            if shifts[i].startTime.tm_hour > shifts[i - 1].startTime.tm_hour:
+                row += 1
+                worksheet.write(row - 1, 0, shifts[i].category)
+        worksheet.write(row, 1, shifts[i].lastName)
+        worksheet.write(row, 2, shifts[i].firstName)
+        worksheet.write(row, 3, shifts[i].position)
+        worksheet.write(row, 4, shifts[i].startTimeStr)
+        worksheet.write(row, 5, shifts[i].endTimeStr)
+        row += 1
