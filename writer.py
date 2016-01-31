@@ -11,12 +11,51 @@ def makeWorkbook(shifts):
     # Write shifts to worksheet
     writeRunsheet(shifts, worksheet)
 
+    # Add headers
     addRunsheetHeader(worksheet, shifts[0].dateStr)
     addColumnHeaders(worksheet)
 
     # Merge cells where needed
     mergeCells(worksheet)
 
+    # Set column widths
+    setColumnWidths(worksheet)
+
+    # Create formats
+    formatRunsheetHeader1 = workbook.add_format({
+        'bold': True,
+        'font_name': 'Cambria',
+        'font_size': 12,
+        'align': 'center'
+    })
+    formatRunsheetHeader2 = workbook.add_format({
+        'bold': True,
+        'font_color': 'red',
+        'font_name': 'Cambria',
+        'font_size': 12,
+        'align': 'center'
+    })
+    formatColumnHeaders = workbook.add_format({
+        'bold': True,
+        'font_name': 'Arial',
+        'font_size': 10,
+        'align': 'center'
+    })
+    formatCategories = workbook.add_format({
+        'bold': True,
+        'font_name': 'Arial',
+        'font_size': 11,
+        'align': 'center',
+
+        'bg_color': 'gray'
+    })
+
+    # Set formats
+    worksheet.set_row(0, 1, formatRunsheetHeader1)
+    worksheet.set_row(1, 1, formatRunsheetHeader2)
+    worksheet.set_row(3, 1, formatColumnHeaders)
+
+    # Close workbook
     workbook.close()
 
 # Replaces forward slashes with hyphens in date string
@@ -70,3 +109,15 @@ def mergeCells(worksheet):
     worksheet.merge_range('A1:I1', '')
     worksheet.merge_range('A2:I2', '')
     worksheet.merge_range('H4:I4', '')
+
+# Sets column widths
+def setColumnWidths(worksheet):
+    worksheet.set_column(0, 0, 2.33)
+    worksheet.set_column(1, 1, 18.50)
+    worksheet.set_column(2, 2, 14.33)
+    worksheet.set_column(3, 3, 6.67)
+    worksheet.set_column(4, 4, 22.16)
+    worksheet.set_column(5, 5, 9.33)
+    worksheet.set_column(6, 6, 9.33)
+    worksheet.set_column(7, 7, 8)
+    worksheet.set_column(8, 8, 8)
