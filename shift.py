@@ -3,7 +3,7 @@ import time
 class shift:
 
     def __init__(self, positionNumber, position, category, \
-             lastName, firstName, startTime, endTime):
+             lastName, firstName, startTime, endTime, dateStr):
         self.positionNumber = positionNumber
         self.position = position
         if self.position == "Training":
@@ -16,6 +16,7 @@ class shift:
         self.startTimeStr = str(self.startTime.tm_hour) + ":" + str(self.startTime.tm_min).zfill(2)
         self.endTime = time.strptime(endTime, "%I:%M %p")
         self.endTimeStr = str(self.endTime.tm_hour) + ":" + str(self.endTime.tm_min).zfill(2)
+        self.dateStr = dateStr
 
     # Returns a string representation of the shift
     def toString(self):

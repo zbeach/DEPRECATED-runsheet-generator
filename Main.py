@@ -1,5 +1,6 @@
 import csv
 import shift
+import writer
 
 # Extracts position number from position name
 def toPositionNumber(positionName):
@@ -29,7 +30,8 @@ def createShifts(r, date):
                              i[LAST_NAME_CSV_COLUMN], \
                              i[FIRST_NAME_CSV_COLUMN], \
                              i[START_TIME_CSV_COLUMN], \
-                             i[END_TIME_CSV_COLUMN])
+                             i[END_TIME_CSV_COLUMN], \
+                             i[DATE_CSV_COLUMN])
         shifts.append(currentShift)
     return shifts
 
@@ -104,7 +106,6 @@ def sortByHour(shifts):
                 temp = shifts[j + 1]
                 shifts[j + 1] = shifts[j]
                 shifts[j] = temp
-
     return shifts
 
 
@@ -133,8 +134,9 @@ with open('data/EXPORT.CSV', 'r') as csvfile:
 
     # Sort shifts
     shifts = sort(shifts)
+
+    # Generate workbook
+    writer.makeWorkbook(shifts)
+
     for i in range(len(shifts)):
         print(shifts[i].toString())
-
-    # Add category separators
-    # Generate XLSX
