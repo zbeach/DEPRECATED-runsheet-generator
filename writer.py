@@ -6,10 +6,9 @@ def makeWorkbook(shifts):
     fileDateStr = formatDateStrForFilename(shifts[0].dateStr)
 
     workbook = xlsxwriter.Workbook("data/Runsheet " + fileDateStr + ".xlsx")
-    worksheet = workbook.add_worksheet()
 
     # Write shifts to worksheet
-    writeRunsheet(shifts, worksheet)
+    worksheet = writeRunsheet(shifts, workbook)
 
     # Add headers
     addRunsheetHeader(worksheet, shifts[0].dateStr)
@@ -41,19 +40,11 @@ def makeWorkbook(shifts):
         'font_size': 10,
         'align': 'center'
     })
-    formatCategories = workbook.add_format({
-        'bold': True,
-        'font_name': 'Arial',
-        'font_size': 11,
-        'align': 'center',
-
-        'bg_color': 'gray'
-    })
 
     # Set formats
-    worksheet.set_row(0, 1, formatRunsheetHeader1)
-    worksheet.set_row(1, 1, formatRunsheetHeader2)
-    worksheet.set_row(3, 1, formatColumnHeaders)
+    worksheet.set_row(0, 15, formatRunsheetHeader1)
+    worksheet.set_row(1, 15, formatRunsheetHeader2)
+    worksheet.set_row(3, 15, formatColumnHeaders)
 
     # Close workbook
     workbook.close()
@@ -88,21 +79,57 @@ def addColumnHeaders(worksheet):
 
 
 # Writes shifts to worksheet
-def writeRunsheet(shifts, worksheet):
+def writeRunsheet(shifts, workbook):
+
+    worksheet = workbook.add_worksheet()
+
+    formatCategories = workbook.add_format({
+        'bold': True,
+        'font_name': 'Arial',
+        'font_size': 11,
+        'align': 'center',
+
+        'bg_color': '#d3d3d3'
+    })
+    formatShortContentCells = workbook.add_format({
+        'font_name': 'Arial',
+        'font_size': 10,
+        'align': 'center',
+
+        'border': 1 # Continuous
+    })
+    formatLongContentCells = workbook.add_format({
+        'font_name': 'Arial',
+        'font_size': 10,
+        'align': 'left',
+
+        'border': 1 # Continuous
+    })
+
     row = 4
-    worksheet.write(row, 0, shifts[0].category)
+    worksheet.write(row, 0, shifts[0].category, formatCategories)
+    for i in range(1, 9):
+        worksheet.write(row, i, None, formatCategories)
     row = 5
     for i in range(0, len(shifts)):
         if i > 0:
             if shifts[i].startTime.tm_hour > shifts[i - 1].startTime.tm_hour:
                 row += 1
-                worksheet.write(row - 1, 0, shifts[i].category)
-        worksheet.write(row, 1, shifts[i].lastName)
-        worksheet.write(row, 2, shifts[i].firstName)
-        worksheet.write(row, 4, shifts[i].position)
-        worksheet.write(row, 5, shifts[i].startTimeStr)
-        worksheet.write(row, 6, shifts[i].endTimeStr)
+                worksheet.write(row - 1, 0, shifts[i].category, formatCategories)
+                for i in range(1, 9):
+                    worksheet.write(row - 1, i, None, formatCategories)
+        worksheet.write(row, 0, None, formatShortContentCells)
+        worksheet.write(row, 1, shifts[i].lastName, formatLongContentCells)
+        worksheet.write(row, 2, shifts[i].firstName, formatLongContentCells)
+        worksheet.write(row, 3, None, formatShortContentCells)
+        worksheet.write(row, 4, shifts[i].position, formatLongContentCells)
+        worksheet.write(row, 5, shifts[i].startTimeStr, formatShortContentCells)
+        worksheet.write(row, 6, shifts[i].endTimeStr, formatShortContentCells)
+        worksheet.write(row, 7, None, formatShortContentCells)
+        worksheet.write(row, 8, None, formatShortContentCells)
         row += 1
+
+    return worksheet
 
 # Merges cells where needed
 def mergeCells(worksheet):
