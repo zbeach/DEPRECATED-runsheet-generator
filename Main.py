@@ -103,7 +103,7 @@ def sortByHour(shifts):
 
 ########## Main ##########
 
-with open('data/EXPORT2.CSV', 'r') as csvfile:
+with open('data/EXPORT.CSV', 'r') as csvfile:
     r = csv.reader(csvfile, dialect=csv.excel)
 
     # First row of the CSV contains column headers
@@ -119,7 +119,7 @@ with open('data/EXPORT2.CSV', 'r') as csvfile:
     DATE_CSV_COLUMN = HEADER_ROW.index("Date")
 
     # Runsheet date
-    inputDate = "2/4/2016" # Test
+    inputDate = "1/28/2016" # Test
 
     # Create list of shifts for runsheet
     shifts = createShifts(r, inputDate)
