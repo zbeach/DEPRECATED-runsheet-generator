@@ -21,20 +21,20 @@ def makeWorkbook(shifts):
     setColumnWidths(worksheet)
 
     # Create formats
-    formatRunsheetHeader1 = workbook.add_format({
-        'bold': True,
-        'font_name': 'Cambria',
-        'font_size': 12,
+    runsheetHeader1Format = workbook.add_format({
+        'bold': False,
+        'font_name': 'Arial',
+        'font_size': 15,
         'align': 'center'
     })
-    formatRunsheetHeader2 = workbook.add_format({
-        'bold': True,
+    runsheetHeader2Format = workbook.add_format({
+        'bold': False,
         'font_color': 'red',
-        'font_name': 'Cambria',
-        'font_size': 12,
+        'font_name': 'Arial',
+        'font_size': 13,
         'align': 'center'
     })
-    formatColumnHeaders = workbook.add_format({
+    columnHeadersFormat = workbook.add_format({
         'bold': True,
         'font_name': 'Arial',
         'font_size': 10,
@@ -42,12 +42,14 @@ def makeWorkbook(shifts):
     })
 
     # Set formats
-    worksheet.set_row(0, 15, formatRunsheetHeader1)
-    worksheet.set_row(1, 15, formatRunsheetHeader2)
-    worksheet.set_row(3, 15, formatColumnHeaders)
+    worksheet.set_row(0, 15, runsheetHeader1Format)
+    worksheet.set_row(1, 15, runsheetHeader2Format)
+    worksheet.set_row(3, 15, columnHeadersFormat)
 
     # Close workbook
     workbook.close()
+
+    return "Runsheet\ " + fileDateStr + ".xlsx"
 
 # Replaces forward slashes with hyphens in date string
 def formatDateStrForFilename(dateStr):
@@ -75,7 +77,7 @@ def addColumnHeaders(worksheet):
     worksheet.write(3, 4, "Route")
     worksheet.write(3, 5, "Start Time")
     worksheet.write(3, 6, "End Time")
-    worksheet.write(3, 7, "Shift Changes")
+    worksheet.write(3, 7, "Shift Change")
 
 
 # Writes shifts to worksheet
@@ -83,7 +85,7 @@ def writeRunsheet(shifts, workbook):
 
     worksheet = workbook.add_worksheet()
 
-    formatCategories = workbook.add_format({
+    categoriesFormat = workbook.add_format({
         'bold': True,
         'font_name': 'Arial',
         'font_size': 11,
@@ -91,42 +93,50 @@ def writeRunsheet(shifts, workbook):
 
         'bg_color': '#d3d3d3'
     })
-    formatShortContentCells = workbook.add_format({
+    centeredContentCellsFormat = workbook.add_format({
         'font_name': 'Arial',
         'font_size': 10,
         'align': 'center',
 
         'border': 1 # Continuous
     })
-    formatLongContentCells = workbook.add_format({
+    leftAlignedContentCellsFormat = workbook.add_format({
         'font_name': 'Arial',
         'font_size': 10,
         'align': 'left',
 
         'border': 1 # Continuous
     })
+    busCellsFormat = workbook.add_format({
+        'font_name': 'Arial',
+        'font_size': 10,
+        'bold': True,
+        'align': 'center',
+
+        'border': 1 # Continuous
+    })
 
     row = 4
-    worksheet.write(row, 0, shifts[0].category, formatCategories)
+    worksheet.write(row, 0, shifts[0].category, categoriesFormat)
     for i in range(1, 9):
-        worksheet.write(row, i, None, formatCategories)
+        worksheet.write(row, i, None, categoriesFormat)
     row = 5
     for i in range(0, len(shifts)):
         if i > 0:
             if shifts[i].startTime.tm_hour > shifts[i - 1].startTime.tm_hour:
                 row += 1
-                worksheet.write(row - 1, 0, shifts[i].category, formatCategories)
+                worksheet.write(row - 1, 0, shifts[i].category, categoriesFormat)
                 for i in range(1, 9):
-                    worksheet.write(row - 1, i, None, formatCategories)
-        worksheet.write(row, 0, None, formatShortContentCells)
-        worksheet.write(row, 1, shifts[i].lastName, formatLongContentCells)
-        worksheet.write(row, 2, shifts[i].firstName, formatLongContentCells)
-        worksheet.write(row, 3, None, formatShortContentCells)
-        worksheet.write(row, 4, shifts[i].position, formatLongContentCells)
-        worksheet.write(row, 5, shifts[i].startTimeStr, formatShortContentCells)
-        worksheet.write(row, 6, shifts[i].endTimeStr, formatShortContentCells)
-        worksheet.write(row, 7, None, formatShortContentCells)
-        worksheet.write(row, 8, None, formatShortContentCells)
+                    worksheet.write(row - 1, i, None, categoriesFormat)
+        worksheet.write(row, 0, None, centeredContentCellsFormat)
+        worksheet.write(row, 1, shifts[i].lastName, leftAlignedContentCellsFormat)
+        worksheet.write(row, 2, shifts[i].firstName, leftAlignedContentCellsFormat)
+        worksheet.write(row, 3, None, busCellsFormat)
+        worksheet.write(row, 4, shifts[i].position, leftAlignedContentCellsFormat)
+        worksheet.write(row, 5, shifts[i].startTimeStr, centeredContentCellsFormat)
+        worksheet.write(row, 6, shifts[i].endTimeStr, centeredContentCellsFormat)
+        worksheet.write(row, 7, None, centeredContentCellsFormat)
+        worksheet.write(row, 8, None, centeredContentCellsFormat)
         row += 1
 
     return worksheet
@@ -144,7 +154,7 @@ def setColumnWidths(worksheet):
     worksheet.set_column(2, 2, 14.33)
     worksheet.set_column(3, 3, 6.67)
     worksheet.set_column(4, 4, 22.16)
-    worksheet.set_column(5, 5, 9.33)
-    worksheet.set_column(6, 6, 9.33)
-    worksheet.set_column(7, 7, 8)
-    worksheet.set_column(8, 8, 8)
+    worksheet.set_column(5, 5, 8.5)
+    worksheet.set_column(6, 6, 8.5)
+    worksheet.set_column(7, 7, 8.5)
+    worksheet.set_column(8, 8, 8.5)

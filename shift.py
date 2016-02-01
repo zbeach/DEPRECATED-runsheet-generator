@@ -6,10 +6,15 @@ class shift:
              lastName, firstName, startTime, endTime, dateStr):
         self.positionNumber = positionNumber
         self.position = position
+        self.position = self.position.replace(" (Full Service)", "")
+        self.position = self.position.replace(" (City Only Service)", "")
         if self.position == "Training":
-            self.category = "T"
+            self.category = 'T'
         else:
             self.category = category
+        if (self.category != 'T'):
+            INDEX = 2
+            self.position = self.position[:INDEX] + self.category + self.position[INDEX:]
         self.lastName = lastName
         self.firstName = firstName
         self.startTime = time.strptime(startTime,  "%I:%M %p")

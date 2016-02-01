@@ -1,6 +1,7 @@
 import csv
 import shift
 import writer
+import os
 
 # Extracts position number from position name
 def toPositionNumber(positionName):
@@ -57,13 +58,13 @@ def sortByCategory(shifts):
 
 # Sorts list of shifts by position within category
 def sortByPositionWithinCategory(shiftsIn):
-    numberOfCategories = getNumberOfCategories(shiftsIn)
     categoryIndices = getCategoryIndices(shiftsIn)
+    print(categoryIndices)
     shiftsOut = []
     for i in range(len(categoryIndices)):
         start = categoryIndices[i]
         if i == len(categoryIndices) - 1:
-            end = len(categoryIndices)
+            end = len(shiftsIn)
         else:
             end = categoryIndices[i + 1]
         shiftsOut = shiftsOut + (sortByPosition(shiftsIn[start:end]))
@@ -78,15 +79,6 @@ def sortByPosition(shiftsInCategory):
                 shiftsInCategory[i] = shiftsInCategory[j]
                 shiftsInCategory[j] = temp
     return shiftsInCategory
-
-# Gets number of categories in shifts list
-def getNumberOfCategories(shifts):
-    numberOfCategories = 0
-    previousCategory = '#'
-    for i in range(len(shifts)):
-        if shifts[i].category != previousCategory:
-            previousCategory = shifts[i].category
-            numberOfCategories += 1
 
 # Gets index for first shift of each category in list
 def getCategoryIndices(shifts):
@@ -127,7 +119,7 @@ with open('data/EXPORT2.CSV', 'r') as csvfile:
     DATE_CSV_COLUMN = HEADER_ROW.index("Date")
 
     # Runsheet date
-    inputDate = "2/2/2016" # Test
+    inputDate = "2/4/2016" # Test
 
     # Create list of shifts for runsheet
     shifts = createShifts(r, inputDate)
@@ -136,7 +128,9 @@ with open('data/EXPORT2.CSV', 'r') as csvfile:
     shifts = sort(shifts)
 
     # Generate workbook
-    writer.makeWorkbook(shifts)
+    runsheetName = writer.makeWorkbook(shifts)
 
-    for i in range(len(shifts)):
-        print(shifts[i].toString())
+    os.system("open " + "data/" + runsheetName)
+
+    for i in shifts:
+        print(i.toString())
