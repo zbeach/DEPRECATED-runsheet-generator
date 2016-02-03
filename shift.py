@@ -2,6 +2,8 @@ import time
 
 class shift:
 
+    lastOnRoute = None
+
     def __init__(self, positionNumber, position, category, \
              lastName, firstName, startTime, endTime, dateStr, description):
         self.positionNumber = positionNumber

@@ -106,6 +106,14 @@ def writeRunsheet(shifts, workbook):
 
         'border': 1 # Continuous
     })
+    positionLastOnRouteFormat = workbook.add_format({
+        'font_name': 'Arial',
+        'font_size': 10,
+        'align': 'left',
+        'bold': True,
+
+        'border': 1 # Continuous
+    })
     busCellsFormat = workbook.add_format({
         'font_name': 'Arial',
         'font_size': 10,
@@ -127,7 +135,10 @@ def writeRunsheet(shifts, workbook):
     worksheet.write(row, 1, shifts[0].lastName, leftAlignedContentCellsFormat)
     worksheet.write(row, 2, shifts[0].firstName, leftAlignedContentCellsFormat)
     worksheet.write(row, 3, None, busCellsFormat)
-    worksheet.write(row, 4, shifts[0].position, leftAlignedContentCellsFormat)
+    if shifts[0].lastOnRoute:
+        worksheet.write(row, 4, shifts[0].position, positionLastOnRouteFormat)
+    else:
+        worksheet.write(row, 4, shifts[0].position, leftAlignedContentCellsFormat)
     worksheet.write(row, 5, shifts[0].startTimeStr, centeredContentCellsFormat)
     worksheet.write(row, 6, shifts[0].endTimeStr, centeredContentCellsFormat)
     worksheet.write(row, 7, None, centeredContentCellsFormat)
@@ -152,7 +163,10 @@ def writeRunsheet(shifts, workbook):
         worksheet.write(row, 1, shifts[i].lastName, leftAlignedContentCellsFormat)
         worksheet.write(row, 2, shifts[i].firstName, leftAlignedContentCellsFormat)
         worksheet.write(row, 3, None, busCellsFormat)
-        worksheet.write(row, 4, shifts[i].position, leftAlignedContentCellsFormat)
+        if shifts[i].lastOnRoute:
+            worksheet.write(row, 4, shifts[i].position, positionLastOnRouteFormat)
+        else:
+            worksheet.write(row, 4, shifts[i].position, leftAlignedContentCellsFormat)
         worksheet.write(row, 5, shifts[i].startTimeStr, centeredContentCellsFormat)
         worksheet.write(row, 6, shifts[i].endTimeStr, centeredContentCellsFormat)
         worksheet.write(row, 7, None, centeredContentCellsFormat)

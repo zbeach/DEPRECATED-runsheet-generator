@@ -45,6 +45,18 @@ def sort(shifts):
     shifts = sortByPositionWithinCategory(shifts)
     # Separate by hour
     shifts = sortByHour(shifts)
+
+    return shifts
+
+# Sets shifts that are last on respective routes for day of operations
+def setLastOnRoute(shifts):
+    routes = []
+    for i in reversed(range(len(shifts))):
+        if shifts[i].category != 'T':
+            if routes.__contains__(shifts[i].positionNumber) == False:
+                shifts[i].lastOnRoute = True
+                routes.append(shifts[i].positionNumber)
+        print(shifts[i].lastOnRoute)
     return shifts
 
 # Sorts list of shifts by category
@@ -152,6 +164,9 @@ with open('data/EXPORT2.CSV', 'r') as csvfile:
 
     # Sort shifts
     shifts = sort(shifts)
+
+    # Set shifts that are last on respective routes for day of operations
+    shifts = setLastOnRoute(shifts)
 
     # Generate workbook
     runsheetName = writer.makeWorkbook(shifts)
