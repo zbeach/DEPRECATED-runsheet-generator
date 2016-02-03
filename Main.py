@@ -32,7 +32,8 @@ def createShifts(r, date):
                              i[FIRST_NAME_CSV_COLUMN], \
                              i[START_TIME_CSV_COLUMN], \
                              i[END_TIME_CSV_COLUMN], \
-                             i[DATE_CSV_COLUMN])
+                             i[DATE_CSV_COLUMN], \
+                             i[DESCRIPTION_CSV_COLUMN])
         shifts.append(currentShift)
     return shifts
 
@@ -96,12 +97,16 @@ def sortByHour(shifts):
     # Get index of first training shift in list
     trainingIndex = getTrainingIndex(shifts)
 
-    for i in range(len(shifts)):
-        for j in range(i, len(shifts) - 1):
+    for i in range(0, trainingIndex):
+        for j in range(i, trainingIndex - 1):
             if shifts[j].startTime.tm_hour > shifts[j + 1].startTime.tm_hour:
                 temp = shifts[j + 1]
                 shifts[j + 1] = shifts[j]
                 shifts[j] = temp
+
+    # Sort training shifts by hour
+    shifts = sortTrainingByHour(shifts, trainingIndex)
+
     return shifts
 
 # Gets index of first training shift in list
@@ -111,7 +116,15 @@ def getTrainingIndex(shifts):
             return shifts.index(i)
     return -1
 
-
+# Sorts training shifts by hour
+def sortTrainingByHour(shifts, startIndex):
+    for i in range(startIndex, len(shifts)):
+        for j in range(i, len(shifts) - 1):
+            if shifts[j].startTime.tm_hour > shifts[j + 1].startTime.tm_hour:
+                temp = shifts[j + 1]
+                shifts[j + 1] = shifts[j]
+                shifts[j] = temp
+    return shifts
 
 ########## Main ##########
 
@@ -129,9 +142,10 @@ with open('data/EXPORT2.CSV', 'r') as csvfile:
     START_TIME_CSV_COLUMN = HEADER_ROW.index("Start Time")
     END_TIME_CSV_COLUMN = HEADER_ROW.index("End Time")
     DATE_CSV_COLUMN = HEADER_ROW.index("Date")
+    DESCRIPTION_CSV_COLUMN = HEADER_ROW.index("Shift Description")
 
     # Runsheet date
-    inputDate = "2/2/2016" # Test
+    inputDate = "2/6/2016" # Test
 
     # Create list of shifts for runsheet
     shifts = createShifts(r, inputDate)
@@ -143,4 +157,7 @@ with open('data/EXPORT2.CSV', 'r') as csvfile:
     runsheetName = writer.makeWorkbook(shifts)
 
     os.system("open " + "data/" + runsheetName)
+
+    for i in shifts:
+        print(i.toString())
 

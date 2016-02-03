@@ -3,13 +3,14 @@ import time
 class shift:
 
     def __init__(self, positionNumber, position, category, \
-             lastName, firstName, startTime, endTime, dateStr):
+             lastName, firstName, startTime, endTime, dateStr, description):
         self.positionNumber = positionNumber
         self.position = position
         self.position = self.position.replace(" (Full Service)", "")
         self.position = self.position.replace(" (City Only Service)", "")
         if self.position == "Training":
             self.category = 'T'
+            self.position = description
         else:
             self.category = category
         if (self.category != 'T'):

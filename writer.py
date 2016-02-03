@@ -115,10 +115,13 @@ def writeRunsheet(shifts, workbook):
         'border': 1 # Continuous
     })
 
+    # Write first column row
     row = 4
     worksheet.write(row, 0, shifts[0].category, categoriesFormat)
     for i in range(1, 9):
         worksheet.write(row, i, None, categoriesFormat)
+
+    # Write remaining rows
     row = 5
     for i in range(0, len(shifts)):
         if i > 0:
