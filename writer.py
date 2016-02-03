@@ -90,7 +90,6 @@ def writeRunsheet(shifts, workbook):
         'font_name': 'Arial',
         'font_size': 11,
         'align': 'center',
-
         'bg_color': '#d3d3d3'
     })
     centeredContentCellsFormat = workbook.add_format({

@@ -92,6 +92,10 @@ def getCategoryIndices(shifts):
 
 # Separates shifts by hour
 def sortByHour(shifts):
+
+    # Get index of first training shift in list
+    trainingIndex = getTrainingIndex(shifts)
+
     for i in range(len(shifts)):
         for j in range(i, len(shifts) - 1):
             if shifts[j].startTime.tm_hour > shifts[j + 1].startTime.tm_hour:
@@ -100,10 +104,18 @@ def sortByHour(shifts):
                 shifts[j] = temp
     return shifts
 
+# Gets index of first training shift in list
+def getTrainingIndex(shifts):
+    for i in shifts:
+        if i.category == 'T':
+            return shifts.index(i)
+    return -1
+
+
 
 ########## Main ##########
 
-with open('data/EXPORT.CSV', 'r') as csvfile:
+with open('data/EXPORT2.CSV', 'r') as csvfile:
     r = csv.reader(csvfile, dialect=csv.excel)
 
     # First row of the CSV contains column headers
@@ -119,7 +131,7 @@ with open('data/EXPORT.CSV', 'r') as csvfile:
     DATE_CSV_COLUMN = HEADER_ROW.index("Date")
 
     # Runsheet date
-    inputDate = "1/28/2016" # Test
+    inputDate = "2/2/2016" # Test
 
     # Create list of shifts for runsheet
     shifts = createShifts(r, inputDate)
@@ -132,5 +144,3 @@ with open('data/EXPORT.CSV', 'r') as csvfile:
 
     os.system("open " + "data/" + runsheetName)
 
-    for i in shifts:
-        print(i.toString())
