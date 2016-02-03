@@ -5,7 +5,7 @@ import time
 def makeWorkbook(shifts):
     fileDateStr = formatDateStrForFilename(shifts[0].dateStr)
 
-    workbook = xlsxwriter.Workbook("data/Runsheet " + fileDateStr + ".xlsx")
+    workbook = xlsxwriter.Workbook("data/Runsheet" + fileDateStr + ".xlsx")
 
     # Write shifts to worksheet
     worksheet = writeRunsheet(shifts, workbook)
@@ -49,7 +49,7 @@ def makeWorkbook(shifts):
     # Close workbook
     workbook.close()
 
-    return "Runsheet\ " + fileDateStr + ".xlsx"
+    return "Runsheet" + fileDateStr + ".xlsx"
 
 # Replaces forward slashes with hyphens in date string
 def formatDateStrForFilename(dateStr):
@@ -89,7 +89,7 @@ def writeRunsheet(shifts, workbook):
         'bold': True,
         'font_name': 'Arial',
         'font_size': 11,
-        'align': 'center',
+        'align': 'left',
         'bg_color': '#d3d3d3'
     })
     centeredContentCellsFormat = workbook.add_format({
@@ -137,7 +137,13 @@ def writeRunsheet(shifts, workbook):
     row += 1
 
     for i in range(1, len(shifts)):
-        if shifts[i].startTime.tm_hour > shifts[i - 1].startTime.tm_hour:
+        if shifts[i].category == 'T':
+            if shifts[i - 1].category != 'T':
+                worksheet.write(row, 0, "Training", categoriesFormat)
+                for j in range(1, 9):
+                    worksheet.write(row, j, None, categoriesFormat)
+                row += 1
+        elif shifts[i].startTime.tm_hour > shifts[i - 1].startTime.tm_hour:
             worksheet.write(row, 0, shifts[i].category, categoriesFormat)
             for j in range(1, 9):
                 worksheet.write(row, j, None, categoriesFormat)

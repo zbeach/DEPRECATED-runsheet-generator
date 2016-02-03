@@ -9,7 +9,7 @@ class shift:
         self.position = self.position.replace(" (Full Service)", "")
         self.position = self.position.replace(" (City Only Service)", "")
         if self.position == "Training":
-            self.category = 'T'
+            self.category = "T"
             self.position = description
         else:
             self.category = category

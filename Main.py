@@ -156,5 +156,5 @@ with open('data/EXPORT2.CSV', 'r') as csvfile:
     # Generate workbook
     runsheetName = writer.makeWorkbook(shifts)
 
-    os.system("open " + "data/" + runsheetName)
+    os.system("start " + "data/" + runsheetName)
 
