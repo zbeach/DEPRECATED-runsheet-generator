@@ -121,15 +121,27 @@ def writeRunsheet(shifts, workbook):
     for i in range(1, 9):
         worksheet.write(row, i, None, categoriesFormat)
 
+    # Write first shift row
+    row += 1
+    worksheet.write(row, 0, None, centeredContentCellsFormat)
+    worksheet.write(row, 1, shifts[0].lastName, leftAlignedContentCellsFormat)
+    worksheet.write(row, 2, shifts[0].firstName, leftAlignedContentCellsFormat)
+    worksheet.write(row, 3, None, busCellsFormat)
+    worksheet.write(row, 4, shifts[0].position, leftAlignedContentCellsFormat)
+    worksheet.write(row, 5, shifts[0].startTimeStr, centeredContentCellsFormat)
+    worksheet.write(row, 6, shifts[0].endTimeStr, centeredContentCellsFormat)
+    worksheet.write(row, 7, None, centeredContentCellsFormat)
+    worksheet.write(row, 8, None, centeredContentCellsFormat)
+
     # Write remaining rows
-    row = 5
-    for i in range(0, len(shifts)):
-        if i > 0:
-            if shifts[i].startTime.tm_hour > shifts[i - 1].startTime.tm_hour:
-                row += 1
-                worksheet.write(row - 1, 0, shifts[i].category, categoriesFormat)
-                for i in range(1, 9):
-                    worksheet.write(row - 1, i, None, categoriesFormat)
+    row += 1
+
+    for i in range(1, len(shifts)):
+        if shifts[i].startTime.tm_hour > shifts[i - 1].startTime.tm_hour:
+            worksheet.write(row, 0, shifts[i].category, categoriesFormat)
+            for j in range(1, 9):
+                worksheet.write(row, j, None, categoriesFormat)
+            row += 1
         worksheet.write(row, 0, None, centeredContentCellsFormat)
         worksheet.write(row, 1, shifts[i].lastName, leftAlignedContentCellsFormat)
         worksheet.write(row, 2, shifts[i].firstName, leftAlignedContentCellsFormat)

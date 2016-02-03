@@ -145,7 +145,7 @@ with open('data/EXPORT2.CSV', 'r') as csvfile:
     DESCRIPTION_CSV_COLUMN = HEADER_ROW.index("Shift Description")
 
     # Runsheet date
-    inputDate = "2/6/2016" # Test
+    inputDate = "2/2/2016" # Test
 
     # Create list of shifts for runsheet
     shifts = createShifts(r, inputDate)
@@ -157,7 +157,4 @@ with open('data/EXPORT2.CSV', 'r') as csvfile:
     runsheetName = writer.makeWorkbook(shifts)
 
     os.system("open " + "data/" + runsheetName)
-
-    for i in shifts:
-        print(i.toString())
 
