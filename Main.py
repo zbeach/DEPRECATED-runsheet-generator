@@ -2,6 +2,7 @@ import csv
 import shift
 import writer
 import os
+import tkinter
 
 # Extracts position number from position name
 def toPositionNumber(positionName):
@@ -140,7 +141,19 @@ def sortTrainingByHour(shifts, startIndex):
 
 ########## Main ##########
 
-with open('data/EXPORT2.CSV', 'r') as csvfile:
+top = tkinter.Tk()
+
+dateEntryLabel = tkinter.Label(top, text="Date")
+dateEntryLabel.pack(side = tkinter.LEFT)
+E1 = tkinter.Entry(top)
+E1.pack(side = tkinter.LEFT)
+
+B = tkinter.Button(top, text="Hello")
+B.pack(side = tkinter.RIGHT)
+
+top.mainloop()
+
+with open('C:/Users/Zack/Desktop/RG/EXPORT2.CSV', 'r') as csvfile:
     r = csv.reader(csvfile, dialect=csv.excel)
 
     # First row of the CSV contains column headers
@@ -157,7 +170,7 @@ with open('data/EXPORT2.CSV', 'r') as csvfile:
     DESCRIPTION_CSV_COLUMN = HEADER_ROW.index("Shift Description")
 
     # Runsheet date
-    inputDate = "2/2/2016" # Test
+    inputDate = "2/5/2016" # Test
 
     # Create list of shifts for runsheet
     shifts = createShifts(r, inputDate)
@@ -171,5 +184,5 @@ with open('data/EXPORT2.CSV', 'r') as csvfile:
     # Generate workbook
     runsheetName = writer.makeWorkbook(shifts)
 
-    os.system("start " + "data/" + runsheetName)
+    os.system("start " + "C:/Users/Zack/Desktop/RG/" + runsheetName)
 
