@@ -153,7 +153,7 @@ B.pack(side = tkinter.RIGHT)
 
 top.mainloop()
 
-with open('C:/Users/Zack/Desktop/RG/EXPORT2.CSV', 'r') as csvfile:
+with open('C:/Users/Zack/Desktop/RG/EXPORT.CSV', 'r') as csvfile:
     r = csv.reader(csvfile, dialect=csv.excel)
 
     # First row of the CSV contains column headers
@@ -170,7 +170,7 @@ with open('C:/Users/Zack/Desktop/RG/EXPORT2.CSV', 'r') as csvfile:
     DESCRIPTION_CSV_COLUMN = HEADER_ROW.index("Shift Description")
 
     # Runsheet date
-    inputDate = "2/5/2016" # Test
+    inputDate = "2/10/2016" # Test
 
     # Create list of shifts for runsheet
     shifts = createShifts(r, inputDate)
