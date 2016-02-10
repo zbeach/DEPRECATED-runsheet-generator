@@ -153,7 +153,7 @@ B.pack(side = tkinter.RIGHT)
 
 top.mainloop()
 
-with open('C:/Users/Zack/Desktop/RG/EXPORT.CSV', 'r') as csvfile:
+with open('/Users/zack/Desktop/EXPORT.CSV', 'r') as csvfile:
     r = csv.reader(csvfile, dialect=csv.excel)
 
     # First row of the CSV contains column headers
@@ -184,5 +184,5 @@ with open('C:/Users/Zack/Desktop/RG/EXPORT.CSV', 'r') as csvfile:
     # Generate workbook
     runsheetName = writer.makeWorkbook(shifts)
 
-    os.system("start " + "C:/Users/Zack/Desktop/RG/" + runsheetName)
+    os.system("open " + "/Users/zack/Desktop/" + runsheetName + ".xlsx")
 

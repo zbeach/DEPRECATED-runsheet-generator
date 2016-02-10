@@ -5,7 +5,7 @@ import time
 def makeWorkbook(shifts):
     fileDateStr = formatDateStrForFilename(shifts[0].dateStr)
 
-    workbook = xlsxwriter.Workbook("C:/Users/Zack/Desktop/RG/Runsheet" + fileDateStr + ".xlsx")
+    workbook = xlsxwriter.Workbook("/Users/zack/Desktop/Runsheet" + fileDateStr + ".xlsx")
 
     # Write shifts to worksheet
     worksheet = writeRunsheet(shifts, workbook)

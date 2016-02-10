@@ -1,0 +1,19 @@
+import csv
+import sorter
+import os
+import tkinter
+from enum import Enum
+
+
+####### USER INPUT #######
+# File containing raw data
+CSV_FILE = open('/Users/zack/Desktop/EXPORT.CSV', 'r')
+# Runsheet date
+DAY_OF_OPERATIONS = "2/10/2016"
+##########################
+
+# Reader for csvfile
+READER = csv.reader(CSV_FILE, dialect=csv.excel)
+
+# Create and sort shifts list
+shifts = sorter.sort(DAY_OF_OPERATIONS)

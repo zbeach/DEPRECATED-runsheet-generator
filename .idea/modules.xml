@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Runsheet Generator.iml" filepath="$PROJECT_DIR$/.idea/Runsheet Generator.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/Runsheet-Generator/.idea/Runsheet-Generator.iml" filepath="$USER_HOME$/PycharmProjects/Runsheet-Generator/.idea/Runsheet-Generator.iml" />
     </modules>
   </component>
 </project>
