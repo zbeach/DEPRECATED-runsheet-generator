@@ -2,6 +2,64 @@ import time
 
 class shift:
 
+    def __init__(self, positionName, category, lastName, firstName, startTimeStr, endTimeStr, dateStr, description):
+        self.position = self.positionNameToPosition(positionName)
+        self.category = category
+        self.lastName = lastName
+        self.firstName = firstName
+        self.startTime = self.timeStrToTime(startTimeStr)
+        self.endTime = self.timeStrToTime(endTimeStr)
+        self.date = self.dateStrToDate(dateStr)
+        self.description = description
+
+    # Convert position string to position number
+    def positionNameToPosition(self, name):
+        # Index of space character after the last digit of the position number in the position name
+        INDEX_AFTER_POSITION_NUMBER = 2
+        # Only return shift if position name is not "Mega Bus Connect"
+        if name != "Mega Bus Connect":
+            # If position name is "Training", set position number to 0
+            if name == "Training":
+                return 0;
+            # Otherwise, set position number to first two characters of position name parsed to int
+            else:
+                return int(name[0:INDEX_AFTER_POSITION_NUMBER])
+
+    # Convert string representation of time to time
+    def timeStrToTime(self, timeStr):
+        return time.strptime(timeStr, "%I:%M %p")
+
+    # Convert string representation of date to date
+    def dateStrToDate(self, dateStr):
+        return time.strptime(dateStr, "%m/%d/%Y")
+
+    # Returns string representation of this shift instance
+    def __str__(self):
+        return str(self.position) + \
+               self.category + \
+               " - " + \
+               self.firstName + \
+               " " + \
+               self.lastName
+
+'''
+# Extracts position number from position name
+def toPositionNumber(positionName):
+    # Set position numbers
+    INDEX_AFTER_END_OF_POSITION_NUMBER = 2
+    if (positionName != "Training") and (positionName != ""):
+        return int(positionName[:INDEX_AFTER_END_OF_POSITION_NUMBER])
+    else:
+        return 0
+
+
+
+
+
+import time
+
+class shift:
+
     lastOnRoute = None
 
     def __init__(self, positionNumber, position, category, \
@@ -38,3 +96,4 @@ class shift:
         return positionNumberStr + self.category + ", " + \
                self.firstName + " " + self.lastName + ", " + \
                self.startTimeStr + "-" + self.endTimeStr
+'''

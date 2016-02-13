@@ -9,11 +9,11 @@ from enum import Enum
 # File containing raw data
 CSV_FILE = open('/Users/zack/Desktop/EXPORT.CSV', 'r')
 # Runsheet date
-DAY_OF_OPERATIONS = "2/10/2016"
+DAY_OF_OPERATIONS = "2/18/2016"
 ##########################
 
-# Reader for csvfile
-READER = csv.reader(CSV_FILE, dialect=csv.excel)
+# Shift sorter
+s = sorter.sorter(CSV_FILE, DAY_OF_OPERATIONS)
 
 # Create and sort shifts list
-shifts = sorter.sort(DAY_OF_OPERATIONS)
+#shifts = s.sort(DAY_OF_OPERATIONS)
