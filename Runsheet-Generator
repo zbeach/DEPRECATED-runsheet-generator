@@ -13,7 +13,12 @@ DAY_OF_OPERATIONS = "2/18/2016"
 ##########################
 
 # Shift sorter
-s = sorter.sorter(CSV_FILE, DAY_OF_OPERATIONS)
+s = sorter.sorter(CSV_FILE)
 
 # Create and sort shifts list
-#shifts = s.sort(DAY_OF_OPERATIONS)
+shifts = s.createShifts(DAY_OF_OPERATIONS)
+
+# Sort shifts list
+shifts = s.sort(shifts)
+for i in shifts:
+    print(i)

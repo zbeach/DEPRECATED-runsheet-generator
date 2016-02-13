@@ -40,7 +40,9 @@ class shift:
                " - " + \
                self.firstName + \
                " " + \
-               self.lastName
+               self.lastName + \
+               " - " + \
+               time.strftime("%I:%M %p", self.startTime)
 
 '''
 # Extracts position number from position name
