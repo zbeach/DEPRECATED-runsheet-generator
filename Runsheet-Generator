@@ -1,5 +1,6 @@
 import csv
 import sorter
+import writer
 import os
 import tkinter
 from enum import Enum
@@ -7,7 +8,9 @@ from enum import Enum
 
 ####### USER INPUT #######
 # File containing raw data
-CSV_FILE = open('/Users/zack/Desktop/EXPORT.CSV', 'r')
+CSV_FILE = open("/Users/zack/Desktop/EXPORT.CSV", 'r')
+# Directory of output file
+RUNSHEET_DIRECTORY_STR = "/Users/zack/Desktop/"
 # Runsheet date
 DAY_OF_OPERATIONS = "2/18/2016"
 ##########################
@@ -20,5 +23,12 @@ shifts = s.createShifts(DAY_OF_OPERATIONS)
 
 # Sort shifts list
 shifts = s.sort(shifts)
+
+# Runsheet writer
+w = writer.writer()
+
+# Runsheet workbook
+w.makeWorkbook(shifts, RUNSHEET_DIRECTORY_STR)
+
 for i in shifts:
     print(i)
