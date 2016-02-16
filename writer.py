@@ -1,6 +1,5 @@
 import xlsxwriter
 import time
-from enum import Enum
 
 class writer:
     def __init__(self):
@@ -26,7 +25,7 @@ class writer:
 
     # Format date string for runsheet filename
     def dateToDateStrForFilename(self, date):
-        return time.strftime("%m-%d-%Y")
+        return time.strftime("%m-%d-%Y", date)
 
     # Make runsheet formats
     def makeFormats(self):
@@ -81,7 +80,7 @@ class writer:
 
             'border': 1 # Continuous
         })
-        self.busCellsFormatFormat = self.workbook.add_format({
+        self.busCellsFormat = self.workbook.add_format({
             'bold': True,
             'font_name': 'Arial',
             'font_size': 10,
@@ -95,12 +94,24 @@ class writer:
         # Worksheet containing runsheet
         worksheet = workbook.add_worksheet()
 
-        # Date of runsheet
-        DATE = shifts[0].date
-        runsheetHeaderDateStr = self.formatDateStrForHeader(DATE)
+        # String representation of date of runsheet
+        runsheetHeaderDateStr = time.strftime("%A %B %d, %Y", shifts[0].date)
         # Add runsheet header
         self.addRunsheetHeader(worksheet, runsheetHeaderDateStr)
 
+        # Write table contents
+        self.writeTable(shifts, worksheet)
+
+        return worksheet
+
+    # Write runsheet header
+    def addRunsheetHeader(self, worksheet, dateStr):
+        worksheet.write(0, 0, "Radford Transit", self.runsheetHeader1Format)
+        worksheet.write(1, 0, dateStr, self.runsheetHeader2Format)
+        worksheet.write(2, 0, None)
+
+    # Write table contents
+    def writeTable(self, shifts, worksheet):
         # Add column headers
         self.addColumnHeaders(worksheet)
 
@@ -110,20 +121,27 @@ class writer:
         # Set column widths
         self.setColumnWidths(worksheet)
 
-        return worksheet
+        # First row
+        ROW_1 = 4
 
-    # Format date string for writing to header
-    def formatDateStrForHeader(self, date):
-        return time.strftime("%A %B %d, %Y")
+        # Row iterator
+        row = ROW_1
 
-    # Write runsheet header
-    def addRunsheetHeader(self, worksheet, dateStr):
-        # Format date string for writing to header
-        dateStr = self.formatDateStrForHeader(dateStr)
-
-        worksheet.write(0, 0, "Radford Transit", self.runsheetHeader1Format)
-        worksheet.write(1, 0, dateStr, self.runsheetHeader2Format)
-        worksheet.write(2, 0, None)
+        # Write row for each category and shift
+        self.writeCategoryHeader(worksheet, row, shifts[0].category)
+        currentStartHour = shifts[0].startTime.tm_hour
+        row += 1
+        for i in shifts:
+            # If new start time, write category header
+            if i.startTime.tm_hour != currentStartHour:
+                print(i.startTime.tm_hour, ", ", currentStartHour)
+                currentStartHour = i.startTime.tm_hour
+                self.writeCategoryHeader(worksheet, row, i.category)
+                # Increment row
+                row += 1
+            # Write shift
+            self.writeShift(worksheet, row, i)
+            row += 1
 
     # Write column headers
     def addColumnHeaders(self, worksheet):
@@ -153,33 +171,44 @@ class writer:
         worksheet.set_column(7, 7, 8.5)
         worksheet.set_column(8, 8, 8.5)
 
+    # Write category header
+    def writeCategoryHeader(self, worksheet, row, category):
+        # If category is 'Tr', set it to "Training"
+        if category == 'Tr':
+            category = "Training"
+        # If category is more than one character long, category is "Other"
+        elif len(category) != 1:
+            category = "Other"
+
+        # Write
+        worksheet.write(row, 0, category, self.categoriesFormat)
+        for i in range(1, 9):
+            worksheet.write(row, i, None, self.categoriesFormat)
+
+    # Write shift row
+    def writeShift(self, worksheet, row, shift):
+        worksheet.write(row, 0, None, self.centeredContentCellsFormat)
+        worksheet.write(row, 1, shift.lastName, self.leftAlignedContentCellsFormat)
+        worksheet.write(row, 2, shift.firstName, self.leftAlignedContentCellsFormat)
+        worksheet.write(row, 3, None, self.busCellsFormat)
+        # If shift is last on route, write position in bold
+        if shift.lastOnRoute == True:
+            worksheet.write(row, 4, shift.positionName, self.positionLastOnRouteFormat)
+        else:
+            worksheet.write(row, 4, shift.positionName, self.leftAlignedContentCellsFormat)
+        worksheet.write(row, 5, self.timeToTimeStrForRunsheet(shift.startTime), self.centeredContentCellsFormat)
+        worksheet.write(row, 6, self.timeToTimeStrForRunsheet(shift.endTime), self.centeredContentCellsFormat)
+        worksheet.write(row, 7, None, self.centeredContentCellsFormat)
+        worksheet.write(row, 8, None, self.centeredContentCellsFormat)
+
+    # Return string representation of time
+    def timeToTimeStrForRunsheet(self, startTime):
+        return time.strftime("%I:%M %p", startTime)
+
 '''
 # Generates the runsheet workbook
 def makeWorkbook(shifts):
-    fileDateStr = formatDateStrForFilename(shifts[0].dateStr)
 
-    workbook = xlsxwriter.Workbook("/Users/zack/Desktop/Runsheet" + fileDateStr + ".xlsx")
-
-    # Write shifts to worksheet
-    worksheet = writeRunsheet(shifts, workbook)
-
-
-    # Merge cells where needed
-    mergeCells(worksheet)
-
-    # Set column widths
-    setColumnWidths(worksheet)
-
-    # Create formats
-
-
-    # Set formats
-    worksheet.set_row(0, 15, runsheetHeader1Format)
-    worksheet.set_row(1, 15, runsheetHeader2Format)
-    worksheet.set_row(3, 15, columnHeadersFormat)
-
-    # Close workbook
-    workbook.close()
 
     return "Runsheet" + fileDateStr + ".xlsx"
 

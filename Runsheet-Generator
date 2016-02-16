@@ -19,10 +19,7 @@ DAY_OF_OPERATIONS = "2/18/2016"
 s = sorter.sorter(CSV_FILE)
 
 # Create and sort shifts list
-shifts = s.createShifts(DAY_OF_OPERATIONS)
-
-# Sort shifts list
-shifts = s.sort(shifts)
+shifts = s.sort(s.createShifts(DAY_OF_OPERATIONS))
 
 # Runsheet writer
 w = writer.writer()

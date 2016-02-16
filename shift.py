@@ -5,12 +5,14 @@ class shift:
     def __init__(self, positionName, category, lastName, firstName, startTimeStr, endTimeStr, dateStr, description):
         self.position = self.positionNameToPosition(positionName)
         self.category = self.setCategory(category, positionName)
-        self.lastName = lastName
+        self.lastName = lastName.replace("(Line Instructor)", "").replace("(NO CDL)", "")
         self.firstName = firstName
         self.startTime = self.timeStrToTime(startTimeStr)
         self.endTime = self.timeStrToTime(endTimeStr)
         self.date = self.dateStrToDate(dateStr)
         self.description = description
+        self.lastOnRoute = False
+        self.positionName = self.setFinalPositionName(positionName)
 
     # Convert position string to position number
     def positionNameToPosition(self, name):
@@ -40,6 +42,17 @@ class shift:
     # Convert string representation of date to date
     def dateStrToDate(self, dateStr):
         return time.strptime(dateStr, "%m/%d/%Y")
+
+    # Add category to position name
+    def setFinalPositionName(self, positionName):
+
+        # If this is a route shift, insert the category after the position number
+        if len(self.category) == 1:
+            positionName = positionName[0:2] + self.category + positionName[2:len(positionName)]
+            return positionName.replace("(Full Service)", "")
+        # If this is a non-route shifts, set position name to be the position description
+        else:
+            return self.description
 
     # Returns string representation of this shift instance
     def __str__(self):

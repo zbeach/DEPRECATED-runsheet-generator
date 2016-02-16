@@ -54,6 +54,9 @@ class sorter:
         # Sort by position within starting hours
         shifts = self.sortByPositionWithinStartHour(shifts)
 
+        # Mark shifts that are last on respective routes
+        self.setLastOnRoute(shifts)
+
         return shifts
 
     # Sort shifts by category
@@ -206,3 +209,16 @@ class sorter:
                     subShifts[j+1] = subShifts[j]
                     subShifts[j] = temp
         return subShifts
+
+    # Mark shifts that are last on respective routes
+    def setLastOnRoute(self, shiftsIn):
+        routeShifts = self.getRouteShifts(shiftsIn)
+        nonRouteShifts = self.getNonRouteShifts(shiftsIn)
+
+        markedRoutes = []
+        for i in reversed(routeShifts):
+            if i.position not in markedRoutes:
+                i.lastOnRoute = True
+                markedRoutes.append(i.position)
+            else:
+                i.lastOnRoute = False
