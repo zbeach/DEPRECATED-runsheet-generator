@@ -25,7 +25,8 @@ class writer:
 
     # Format date string for runsheet filename
     def dateToDateStrForFilename(self, date):
-        return time.strftime("%m-%d-%Y", date)
+        self.dateStrForFilename = time.strftime("%m-%d-%Y", date)
+        return self.dateStrForFilename
 
     # Make runsheet formats
     def makeFormats(self):
@@ -203,67 +204,3 @@ class writer:
     # Return string representation of time
     def timeToTimeStrForRunsheet(self, startTime):
         return time.strftime("%I:%M %p", startTime)
-
-'''
-# Generates the runsheet workbook
-def makeWorkbook(shifts):
-
-
-    return "Runsheet" + fileDateStr + ".xlsx"
-
-###############################
-
-
-    # Write first column row
-    row = 4
-    worksheet.write(row, 0, shifts[0].category, categoriesFormat)
-    for i in range(1, 9):
-        worksheet.write(row, i, None, categoriesFormat)
-
-    # Write first shift row
-    row += 1
-    worksheet.write(row, 0, None, centeredContentCellsFormat)
-    worksheet.write(row, 1, shifts[0].lastName, leftAlignedContentCellsFormat)
-    worksheet.write(row, 2, shifts[0].firstName, leftAlignedContentCellsFormat)
-    worksheet.write(row, 3, None, busCellsFormat)
-    if shifts[0].lastOnRoute:
-        worksheet.write(row, 4, shifts[0].position, positionLastOnRouteFormat)
-    else:
-        worksheet.write(row, 4, shifts[0].position, leftAlignedContentCellsFormat)
-    worksheet.write(row, 5, shifts[0].startTimeStr, centeredContentCellsFormat)
-    worksheet.write(row, 6, shifts[0].endTimeStr, centeredContentCellsFormat)
-    worksheet.write(row, 7, None, centeredContentCellsFormat)
-    worksheet.write(row, 8, None, centeredContentCellsFormat)
-
-    # Write remaining rows
-    row += 1
-
-    for i in range(1, len(shifts)):
-        if shifts[i].category == 'T':
-            if shifts[i - 1].category != 'T':
-                worksheet.write(row, 0, "Training", categoriesFormat)
-                for j in range(1, 9):
-                    worksheet.write(row, j, None, categoriesFormat)
-                row += 1
-        elif shifts[i].startTime.tm_hour > shifts[i - 1].startTime.tm_hour:
-            worksheet.write(row, 0, shifts[i].category, categoriesFormat)
-            for j in range(1, 9):
-                worksheet.write(row, j, None, categoriesFormat)
-            row += 1
-        worksheet.write(row, 0, None, centeredContentCellsFormat)
-        worksheet.write(row, 1, shifts[i].lastName, leftAlignedContentCellsFormat)
-        worksheet.write(row, 2, shifts[i].firstName, leftAlignedContentCellsFormat)
-        worksheet.write(row, 3, None, busCellsFormat)
-        if shifts[i].lastOnRoute:
-            worksheet.write(row, 4, shifts[i].position, positionLastOnRouteFormat)
-        else:
-            worksheet.write(row, 4, shifts[i].position, leftAlignedContentCellsFormat)
-        worksheet.write(row, 5, shifts[i].startTimeStr, centeredContentCellsFormat)
-        worksheet.write(row, 6, shifts[i].endTimeStr, centeredContentCellsFormat)
-        worksheet.write(row, 7, None, centeredContentCellsFormat)
-        worksheet.write(row, 8, None, centeredContentCellsFormat)
-        row += 1
-
-    return worksheet
-
-'''
