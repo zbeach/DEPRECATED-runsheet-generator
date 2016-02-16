@@ -12,7 +12,7 @@ CSV_FILE = open("/Users/zack/Desktop/EXPORT.CSV", 'r')
 # Directory of output file
 RUNSHEET_DIRECTORY_STR = "/Users/zack/Desktop/"
 # Runsheet date
-DAY_OF_OPERATIONS = "2/18/2016"
+DAY_OF_OPERATIONS = "2/20/2016"
 ##########################
 
 # Shift sorter
