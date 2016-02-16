@@ -134,7 +134,6 @@ class writer:
         for i in shifts:
             # If new start time, write category header
             if i.startTime.tm_hour != currentStartHour:
-                print(i.startTime.tm_hour, ", ", currentStartHour)
                 currentStartHour = i.startTime.tm_hour
                 self.writeCategoryHeader(worksheet, row, i.category)
                 # Increment row
