@@ -6,6 +6,7 @@ import csv
 class GUI:
     def __init__(self):
         self.root = Tk()
+        self.root.wm_title("Runsheet Generator")
         self.makeGUI()
 
     def makeGUI(self):
@@ -82,6 +83,14 @@ class GUI:
         for row in reader:
             if row[DATE_COLUMN] not in self.dateStrs:
                 self.dateStrs.append(row[DATE_COLUMN])
+        # Add leading zeros for sorting where needed
+        for i in range(len(self.dateStrs)):
+            dateStrParts = self.dateStrs[i].split('/')
+            if len(dateStrParts[0]) == 1:
+                dateStrParts[0] = '0' + dateStrParts[0]
+            if len(dateStrParts[1]) == 1:
+                dateStrParts[1] = '0' + dateStrParts[1]
+            self.dateStrs[i] = dateStrParts[0] + '/' + dateStrParts[1] + '/' + dateStrParts[2]
 
         # Sort dates
         self.dateStrs.sort()
