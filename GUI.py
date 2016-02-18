@@ -83,14 +83,22 @@ class GUI:
         for row in reader:
             if row[DATE_COLUMN] not in self.dateStrs:
                 self.dateStrs.append(row[DATE_COLUMN])
+                
+        # Parts of a dateStr
+        MONTH_INDEX = 0
+        DAY_INDEX = 1
+        YEAR_INDEX = 2
+                
         # Add leading zeros for sorting where needed
         for i in range(len(self.dateStrs)):
             dateStrParts = self.dateStrs[i].split('/')
-            if len(dateStrParts[0]) == 1:
-                dateStrParts[0] = '0' + dateStrParts[0]
-            if len(dateStrParts[1]) == 1:
-                dateStrParts[1] = '0' + dateStrParts[1]
-            self.dateStrs[i] = dateStrParts[0] + '/' + dateStrParts[1] + '/' + dateStrParts[2]
+            if len(dateStrParts[MONTH_INDEX]) == 1:
+                dateStrParts[MONTH_INDEX] = '0' + dateStrParts[MONTH_INDEX]
+            if len(dateStrParts[DAY_INDEX]) == 1:
+                dateStrParts[YEAR_INDEX] = '0' + dateStrParts[1]
+            self.dateStrs[i] = dateStrParts[MONTH_INDEX] + '/' + \
+                               dateStrParts[DAY_INDEX] + '/' + \
+                               dateStrParts[YEAR_INDEX]
 
         # Sort dates
         self.dateStrs.sort()
