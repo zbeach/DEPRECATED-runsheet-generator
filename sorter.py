@@ -1,5 +1,6 @@
 import csv
 import shift
+import time
 
 class sorter:
 
@@ -29,7 +30,8 @@ class sorter:
         # Build shifts list
         for row in self.reader:
             # Filter by DATE_COLUMN
-            if row[DATE_COLUMN] == date:
+            #if row[DATE_COLUMN] == date:
+            if time.strptime(row[DATE_COLUMN], "%m/%d/%Y") == time.strptime(date, "%m/%d/%Y"):
                 # Filter by CATEGORY_COLUMNs that are route shift categories
                 if row[POSITION_COLUMN] != "Operations Supervisor" and row[POSITION_COLUMN] != "Mega Bus Connect":
                     # Append new shift object to shifts list with fields from current row
