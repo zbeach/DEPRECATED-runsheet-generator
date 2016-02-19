@@ -5,7 +5,7 @@ class shift:
     def __init__(self, positionName, category, lastName, firstName, startTimeStr, endTimeStr, dateStr, description):
         self.position = self.positionNameToPosition(positionName)
         self.category = self.setCategory(category, positionName)
-        self.lastName = lastName.replace("(Line Instructor)", "").replace("(NO CDL)", "")
+        self.lastName = lastName.replace("(Line Instructor)", "(L.I.)").replace("(NO CDL)", "(Non-CDL)")
         self.firstName = firstName
         self.startTime = self.timeStrToTime(startTimeStr)
         self.endTime = self.timeStrToTime(endTimeStr)

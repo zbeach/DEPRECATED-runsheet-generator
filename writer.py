@@ -123,39 +123,19 @@ class writer:
         # Set column widths
         self.setColumnWidths(worksheet)
 
-        # List of route shifts
-        routeShifts = sorter.sorter.getRouteShifts(sorter.sorter, shifts)
-        # List of non-route shifts
-        nonRouteShifts = sorter.sorter.getNonRouteShifts(sorter.sorter, shifts)
-
         # First row
         ROW_1 = 4
         # Row iterator
         row = ROW_1
-        # Write row for each route category and route shift
-        self.writeCategoryHeader(worksheet, row, routeShifts[0].category)
-        currentStartHour = routeShifts[0].startTime.tm_hour
+        # Write row for each unique start hour ("category") and shift
+        self.writeCategoryHeader(worksheet, row, shifts[0].category)
+        currentStartHour = shifts[0].startTime.tm_hour
         row += 1
-        for i in routeShifts:
+        for i in shifts:
             # If new start time, write category header
             if i.startTime.tm_hour != currentStartHour:
                 currentStartHour = i.startTime.tm_hour
                 self.writeCategoryHeader(worksheet, row, i.category)
-                # Increment row
-                row += 1
-            # Write shift
-            self.writeShift(worksheet, row, i)
-            row += 1
-
-        # Write row for each non-route category and non-route shift
-        self.writeCategoryHeader(worksheet, row, nonRouteShifts[0].category)
-        currentCategory = nonRouteShifts[0].category
-        row += 1
-        for i in nonRouteShifts:
-            # If new category, write category header
-            if i.category != currentCategory:
-                currentCategory = i.category
-                self.writeCategoryHeader(worksheet, row, i.position)
                 # Increment row
                 row += 1
             # Write shift
@@ -221,5 +201,5 @@ class writer:
         worksheet.write(row, 8, None, self.centeredContentCellsFormat)
 
     # Return string representation of time
-    def timeToTimeStrForRunsheet(self, timeStr):
-        return time.strftime("%I:%M %p", timeStr).lstrip('0')
+    def timeToTimeStrForRunsheet(self, startTime):
+        return time.strftime("%I:%M %p", startTime).lstrip('0')
