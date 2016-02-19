@@ -1,5 +1,6 @@
 import xlsxwriter
 import time
+import sorter
 
 class writer:
     def __init__(self):
@@ -122,21 +123,37 @@ class writer:
         # Set column widths
         self.setColumnWidths(worksheet)
 
+        routeShifts = sorter.sorter.getRouteShifts(sorter.sorter, shifts)
+        nonRouteShifts = sorter.sorter.getNonRouteShifts(sorter.sorter, shifts)
+
         # First row
         ROW_1 = 4
-
         # Row iterator
         row = ROW_1
-
-        # Write row for each category and shift
-        self.writeCategoryHeader(worksheet, row, shifts[0].category)
-        currentStartHour = shifts[0].startTime.tm_hour
+        # Write row for each route category and route shift
+        self.writeCategoryHeader(worksheet, row, routeShifts[0].category)
+        currentStartHour = routeShifts[0].startTime.tm_hour
         row += 1
-        for i in shifts:
+        for i in routeShifts:
             # If new start time, write category header
             if i.startTime.tm_hour != currentStartHour:
                 currentStartHour = i.startTime.tm_hour
                 self.writeCategoryHeader(worksheet, row, i.category)
+                # Increment row
+                row += 1
+            # Write shift
+            self.writeShift(worksheet, row, i)
+            row += 1
+
+        # Write row for each non-route category and non-route shift
+        self.writeCategoryHeader(worksheet, row, nonRouteShifts[0].category)
+        currentCategory = nonRouteShifts[0].category
+        row += 1
+        for i in nonRouteShifts:
+            # If new category, write category header
+            if i.category != currentCategory:
+                currentCategory = i.category
+                self.writeCategoryHeader(worksheet, row, i.position)
                 # Increment row
                 row += 1
             # Write shift
