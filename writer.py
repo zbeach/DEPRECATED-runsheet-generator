@@ -127,15 +127,24 @@ class writer:
         ROW_1 = 4
         # Row iterator
         row = ROW_1
+
+        # Counter for number of start times within current category
+        numberOfStartTimesInCurrentCategoryCounter = 1
+
         # Write row for each unique start hour ("category") and shift
-        self.writeCategoryHeader(worksheet, row, shifts[0].category)
+        self.writeCategoryHeader(worksheet, row, shifts[0].category, numberOfStartTimesInCurrentCategoryCounter)
         currentStartHour = shifts[0].startTime.tm_hour
+        currentCategory = shifts[0].category
         row += 1
         for i in shifts:
             # If new start time, write category header
             if i.startTime.tm_hour != currentStartHour:
+                numberOfStartTimesInCurrentCategoryCounter += 1
+                if i.category != currentCategory:
+                    numberOfStartTimesInCurrentCategoryCounter = 1
+                    currentCategory = i.category
                 currentStartHour = i.startTime.tm_hour
-                self.writeCategoryHeader(worksheet, row, i.category)
+                self.writeCategoryHeader(worksheet, row, i.category, numberOfStartTimesInCurrentCategoryCounter)
                 # Increment row
                 row += 1
             # Write shift
@@ -171,7 +180,7 @@ class writer:
         worksheet.set_column(8, 8, 8.5)
 
     # Write category header
-    def writeCategoryHeader(self, worksheet, row, category):
+    def writeCategoryHeader(self, worksheet, row, category, startTimesCounter):
         # If category is 'Tr', set it to "Training"
         if category == 'Tr':
             category = "Training"
@@ -180,7 +189,12 @@ class writer:
             category = "Other"
 
         # Write
-        worksheet.write(row, 0, category, self.categoriesFormat)
+        # If at least second start time of current category, write category and which number start time
+        if startTimesCounter > 1:
+            worksheet.write(row, 0, category + str(startTimesCounter), self.categoriesFormat)
+        else:
+            worksheet.write(row, 0, category, self.categoriesFormat)
+            # Fill the rest of the row
         for i in range(1, 9):
             worksheet.write(row, i, None, self.categoriesFormat)
 
