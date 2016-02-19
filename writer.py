@@ -123,7 +123,9 @@ class writer:
         # Set column widths
         self.setColumnWidths(worksheet)
 
+        # List of route shifts
         routeShifts = sorter.sorter.getRouteShifts(sorter.sorter, shifts)
+        # List of non-route shifts
         nonRouteShifts = sorter.sorter.getNonRouteShifts(sorter.sorter, shifts)
 
         # First row
@@ -219,5 +221,5 @@ class writer:
         worksheet.write(row, 8, None, self.centeredContentCellsFormat)
 
     # Return string representation of time
-    def timeToTimeStrForRunsheet(self, startTime):
-        return time.strftime("%I:%M %p", startTime)
+    def timeToTimeStrForRunsheet(self, timeStr):
+        return time.strftime("%I:%M %p", timeStr).lstrip('0')
