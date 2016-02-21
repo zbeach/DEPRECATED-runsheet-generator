@@ -32,12 +32,14 @@ class writer:
     # Make runsheet formats
     def makeFormats(self):
         # Runsheet header formats
+        # "Radford Transit" header
         self.runsheetHeader1Format = self.workbook.add_format({
             'bold': True,
             'font_name': 'Arial',
             'font_size': 15,
             'align': 'center'
         })
+        # Date header
         self.runsheetHeader2Format = self.workbook.add_format({
             'bold': True,
             'font_color': 'red',
@@ -47,12 +49,14 @@ class writer:
         })
 
         # Table formats
+        # Column headers
         self.columnHeadersFormat = self.workbook.add_format({
             'bold': True,
             'font_name': 'Arial',
             'font_size': 10,
             'align': 'center'
         })
+        # Category headers
         self.categoriesFormat = self.workbook.add_format({
             'bold': True,
             'font_name': 'Arial',
@@ -60,6 +64,7 @@ class writer:
             'align': 'left',
             'bg_color': '#d3d3d3'
         })
+        # Centered content cells
         self.centeredContentCellsFormat = self.workbook.add_format({
             'font_name': 'Arial',
             'font_size': 10,
@@ -67,6 +72,7 @@ class writer:
 
             'border': 1 # Continuous
         })
+        # Left-aligned content cells
         self.leftAlignedContentCellsFormat = self.workbook.add_format({
             'font_name': 'Arial',
             'font_size': 10,
@@ -74,6 +80,7 @@ class writer:
 
             'border': 1 # Continuous
         })
+        # Last position on route
         self.positionLastOnRouteFormat = self.workbook.add_format({
             'bold': True,
             'font_name': 'Arial',
@@ -82,6 +89,7 @@ class writer:
 
             'border': 1 # Continuous
         })
+        # Bulls cells
         self.busCellsFormat = self.workbook.add_format({
             'bold': True,
             'font_name': 'Arial',
