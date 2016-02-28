@@ -19,11 +19,13 @@ class GUI:
         self.csvPathEntry.pack()
 
         # CSV path browse button
-        self.csvPathBrowseButton = Button(self.root, text="Browse", command=self.getCSVPath)
+        self.csvPathBrowseButton = Button(self.root, text="Browse",
+                                          command=self.getCSVPath)
         self.csvPathBrowseButton.pack()
 
         # Runsheet path entry label
-        runsheetPathEntryLabel = Label(self.root, text="Runsheet output location")
+        runsheetPathEntryLabel = Label(self.root,
+                                       text="Runsheet output location")
         runsheetPathEntryLabel.pack()
 
         # Runsheet path entry
@@ -31,7 +33,8 @@ class GUI:
         self.runsheetPathEntry.pack()
 
         # Runsheet path browse button
-        self.runsheetPathBrowseButton = Button(self.root, text="Browse", command=self.getRunsheetPath)
+        self.runsheetPathBrowseButton = Button(self.root, text="Browse",
+                                               command=self.getRunsheetPath)
         self.runsheetPathBrowseButton.pack()
 
         # Date label
@@ -43,14 +46,16 @@ class GUI:
         self.dateListbox.pack()
 
         # Confirm button
-        self.confirmButton = Button(self.root, text="Create", command=self.complete)
+        self.confirmButton = Button(self.root, text="Create",
+                                    command=self.complete)
         self.confirmButton.pack()
 
         mainloop()
 
     def getCSVPath(self):
-        self.root.csvPath = filedialog.askopenfilename(filetypes = (("Comma Separated Values files", ".csv"), \
-                                                                ("All files", "*")))
+        self.root.csvPath = filedialog.askopenfilename(
+            filetypes = (("Comma Separated Values files", ".csv"),
+                         ("All files", "*")))
         # Set text of CSV path entry to CSV path
         self.csvPathEntry.delete(0, END)
         self.csvPathEntry.insert(0, self.root.csvPath)

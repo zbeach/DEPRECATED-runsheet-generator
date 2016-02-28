@@ -31,10 +31,13 @@ class sorter:
         for row in self.reader:
             # Filter by DATE_COLUMN
             #if row[DATE_COLUMN] == date:
-            if time.strptime(row[DATE_COLUMN], "%m/%d/%Y") == time.strptime(date, "%m/%d/%Y"):
+            if time.strptime(row[DATE_COLUMN], "%m/%d/%Y") == \
+                    time.strptime(date, "%m/%d/%Y"):
                 # Filter by CATEGORY_COLUMNs that are route shift categories
-                if row[POSITION_COLUMN] != "Operations Supervisor" and row[POSITION_COLUMN] != "Mega Bus Connect":
-                    # Append new shift object to shifts list with fields from current row
+                if row[POSITION_COLUMN] != "Operations Supervisor" and \
+                        row[POSITION_COLUMN] != "Mega Bus Connect":
+                    # Append new shift object to shifts list with fields from
+                    #   current row
                     shifts.append(shift.shift(row[POSITION_COLUMN], \
                                               row[CATEGORY_COLUMN], \
                                               row[LAST_NAME_COLUMN], \
@@ -66,7 +69,8 @@ class sorter:
         # Sort
         for i in range(len(shifts) - 1):
             for j in range(len(shifts) - 1):
-                # If current shift's category is greater than or equal to previous shifts category, swap the shifts
+                # If current shift's category is greater than or equal to
+                #   previous shifts category, swap the shifts
                 if shifts[j].category >= shifts[j+1].category:
                     temp = shifts[j+1]
                     shifts[j+1] = shifts[j]
@@ -98,11 +102,13 @@ class sorter:
             startIndex = categories.index(uniqueCategories[i])
             endIndex = categories.index(uniqueCategories[i+1])
             # Sort shifts in current category by starting hour
-            shiftsOut = shiftsOut + self.sortByStartHour(shiftsIn[startIndex:endIndex])
+            shiftsOut = shiftsOut + \
+                        self.sortByStartHour(shiftsIn[startIndex:endIndex])
         # Perform sort on last category
         startIndex = endIndex
         endIndex = len(categories)
-        shiftsOut = shiftsOut + self.sortByStartHour(shiftsIn[startIndex:endIndex])
+        shiftsOut = shiftsOut + \
+                    self.sortByStartHour(shiftsIn[startIndex:endIndex])
 
         return shiftsOut
 
@@ -126,9 +132,10 @@ class sorter:
     def sortByStartHour(self, subShifts):
         for i in range(len(subShifts) - 1):
             for j in range(len(subShifts) - 1):
-                # If current shift's starting time is greater than or equal to previous shift's starting time,
-                #   swap the shifts
-                if subShifts[j].startTime.tm_hour >= subShifts[j+1].startTime.tm_hour:
+                # If current shift's starting time is greater than or equal to
+                #   previous shift's starting time, swap the shifts
+                if subShifts[j].startTime.tm_hour >= \
+                        subShifts[j+1].startTime.tm_hour:
                     temp = subShifts[j+1]
                     subShifts[j+1] = subShifts[j]
                     subShifts[j] = temp
@@ -158,11 +165,13 @@ class sorter:
             startIndex = startHours.index(uniqueStartHours[i])
             endIndex = startHours.index(uniqueStartHours[i+1])
             # Sort shifts in current starting hour by position
-            shiftsOut = shiftsOut + self.sortByPosition(routeShifts[startIndex:endIndex])
+            shiftsOut = shiftsOut + \
+                        self.sortByPosition(routeShifts[startIndex:endIndex])
         # Perform sort on last starting hour
         startIndex = endIndex
         endIndex = len(startHours)
-        shiftsOut = shiftsOut + self.sortByPosition(routeShifts[startIndex:endIndex])
+        shiftsOut = shiftsOut + \
+                    self.sortByPosition(routeShifts[startIndex:endIndex])
 
         # Append non-route shifts to list of shifts
         shiftsOut = shiftsOut + nonRouteShifts
@@ -205,7 +214,8 @@ class sorter:
     def sortByPosition(self, subShifts):
         for i in range(len(subShifts) - 1):
             for j in range(len(subShifts) - 1):
-                # If current shift's position is greater than or equal to previous shift's position, swap the shifts
+                # If current shift's position is greater than or equal to
+                #   previous shift's position, swap the shifts
                 if subShifts[j].position >= subShifts[j+1].position:
                     temp = subShifts[j+1]
                     subShifts[j+1] = subShifts[j]

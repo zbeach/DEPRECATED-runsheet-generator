@@ -28,6 +28,8 @@ w.makeWorkbook(shifts, RUNSHEET_DIRECTORY_STR)
 
 # Open generated runsheet
 if platform.system() == "Darwin":
-    os.system("open " + RUNSHEET_DIRECTORY_STR + w.dateStrForFilename + ".xlsx")
+    os.system("open " + RUNSHEET_DIRECTORY_STR + w.dateStrForFilename +
+              ".xlsx")
 elif platform.system() == "Windows":
-    os.system("start " + RUNSHEET_DIRECTORY_STR + w.dateStrForFilename + ".xlsx")
+    os.system("start " + RUNSHEET_DIRECTORY_STR + w.dateStrForFilename +
+              ".xlsx")

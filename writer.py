@@ -14,7 +14,8 @@ class writer:
         fileDateStr = self.dateToDateStrForFilename(DATE)
 
         # Runsheet workbook file
-        self.workbook = xlsxwriter.Workbook(runsheetDirectoryStr + fileDateStr + ".xlsx")
+        self.workbook = xlsxwriter.Workbook(runsheetDirectoryStr + \
+                        fileDateStr + ".xlsx")
 
         # Make formats
         self.makeFormats()
@@ -140,7 +141,8 @@ class writer:
         numberOfStartTimesInCurrentCategoryCounter = 1
 
         # Write row for each unique start hour ("category") and shift
-        self.writeCategoryHeader(worksheet, row, shifts[0].category, numberOfStartTimesInCurrentCategoryCounter)
+        self.writeCategoryHeader(worksheet, row, shifts[0].category,
+                                 numberOfStartTimesInCurrentCategoryCounter)
         currentStartHour = shifts[0].startTime.tm_hour
         currentCategory = shifts[0].category
         row += 1
@@ -148,11 +150,18 @@ class writer:
             # If new start time, write category header
             if i.startTime.tm_hour != currentStartHour:
                 numberOfStartTimesInCurrentCategoryCounter += 1
+                '''
+                If category of current shift is not equal to current
+                category, increment counter and update current
+                category.
+                '''
                 if i.category != currentCategory:
                     numberOfStartTimesInCurrentCategoryCounter = 1
                     currentCategory = i.category
                 currentStartHour = i.startTime.tm_hour
-                self.writeCategoryHeader(worksheet, row, i.category, numberOfStartTimesInCurrentCategoryCounter)
+                self.writeCategoryHeader(
+                    worksheet, row, i.category,
+                    numberOfStartTimesInCurrentCategoryCounter)
                 # Increment row
                 row += 1
             # Write shift
@@ -197,9 +206,11 @@ class writer:
             category = "Other"
 
         # Write
-        # If at least second start time of current category, write category and which number start time
+        # If at least second start time of current category, write category and
+        #   which number start time
         if startTimesCounter > 1:
-            worksheet.write(row, 0, category + str(startTimesCounter), self.categoriesFormat)
+            worksheet.write(row, 0, category + str(startTimesCounter),
+                            self.categoriesFormat)
         else:
             worksheet.write(row, 0, category, self.categoriesFormat)
             # Fill the rest of the row
@@ -209,16 +220,22 @@ class writer:
     # Write shift row
     def writeShift(self, worksheet, row, shift):
         worksheet.write(row, 0, None, self.centeredContentCellsFormat)
-        worksheet.write(row, 1, shift.lastName, self.leftAlignedContentCellsFormat)
-        worksheet.write(row, 2, shift.firstName, self.leftAlignedContentCellsFormat)
+        worksheet.write(row, 1, shift.lastName,
+                        self.leftAlignedContentCellsFormat)
+        worksheet.write(row, 2, shift.firstName,
+                        self.leftAlignedContentCellsFormat)
         worksheet.write(row, 3, None, self.busCellsFormat)
         # If shift is last on route, write position in bold
         if shift.lastOnRoute == True:
-            worksheet.write(row, 4, shift.positionName, self.positionLastOnRouteFormat)
+            worksheet.write(row, 4, shift.positionName,
+                            self.positionLastOnRouteFormat)
         else:
-            worksheet.write(row, 4, shift.positionName, self.leftAlignedContentCellsFormat)
-        worksheet.write(row, 5, self.timeToTimeStrForRunsheet(shift.startTime), self.centeredContentCellsFormat)
-        worksheet.write(row, 6, self.timeToTimeStrForRunsheet(shift.endTime), self.centeredContentCellsFormat)
+            worksheet.write(row, 4, shift.positionName,
+                            self.leftAlignedContentCellsFormat)
+        worksheet.write(row, 5, self.timeToTimeStrForRunsheet(shift.startTime),
+                        self.centeredContentCellsFormat)
+        worksheet.write(row, 6, self.timeToTimeStrForRunsheet(shift.endTime),
+                        self.centeredContentCellsFormat)
         worksheet.write(row, 7, None, self.centeredContentCellsFormat)
         worksheet.write(row, 8, None, self.centeredContentCellsFormat)
 
