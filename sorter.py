@@ -38,13 +38,13 @@ class sorter:
                         row[POSITION_COLUMN] != "Mega Bus Connect":
                     # Append new shift object to shifts list with fields from
                     #   current row
-                    shifts.append(shift.shift(row[POSITION_COLUMN], \
-                                              row[CATEGORY_COLUMN], \
-                                              row[LAST_NAME_COLUMN], \
-                                              row[FIRST_NAME_COLUMN], \
-                                              row[START_TIME_COLUMN], \
-                                              row[END_TIME_COLUMN], \
-                                              row[DATE_COLUMN], \
+                    shifts.append(shift.shift(row[POSITION_COLUMN],
+                                              row[CATEGORY_COLUMN],
+                                              row[LAST_NAME_COLUMN],
+                                              row[FIRST_NAME_COLUMN],
+                                              row[START_TIME_COLUMN],
+                                              row[END_TIME_COLUMN],
+                                              row[DATE_COLUMN],
                                               row[DESCRIPTION_COLUMN]))
         return shifts
 
