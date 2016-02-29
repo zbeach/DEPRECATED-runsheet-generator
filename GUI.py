@@ -100,7 +100,7 @@ class GUI:
             if len(dateStrParts[MONTH_INDEX]) == 1:
                 dateStrParts[MONTH_INDEX] = '0' + dateStrParts[MONTH_INDEX]
             if len(dateStrParts[DAY_INDEX]) == 1:
-                dateStrParts[YEAR_INDEX] = '0' + dateStrParts[1]
+                dateStrParts[DAY_INDEX] = '0' + dateStrParts[1]
             self.dateStrs[i] = dateStrParts[MONTH_INDEX] + '/' + \
                                dateStrParts[DAY_INDEX] + '/' + \
                                dateStrParts[YEAR_INDEX]
