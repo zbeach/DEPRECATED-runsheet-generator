@@ -2,10 +2,15 @@ import sorter
 import writer
 import GUI
 import os
+import sys
 import platform
 
 # Make GUI
 gui = GUI.GUI()
+
+# If user closes GUI window, exit program
+if gui.output == None:
+    sys.exit()
 
 # File containing raw data
 CSV_FILE = open(gui.output[0], 'r')
@@ -28,8 +33,8 @@ w.makeWorkbook(shifts, RUNSHEET_DIRECTORY_STR)
 
 # Open generated runsheet
 if platform.system() == "Darwin":
-    os.system("open " + RUNSHEET_DIRECTORY_STR + w.dateStrForFilename +
-              ".xlsx")
+    os.system("open " + '"' + RUNSHEET_DIRECTORY_STR + w.dateStrForFilename +
+              ".xlsx" + '"')
 elif platform.system() == "Windows":
-    os.system("start " + RUNSHEET_DIRECTORY_STR + w.dateStrForFilename +
-              ".xlsx")
+    os.system("start " + '"' + RUNSHEET_DIRECTORY_STR + w.dateStrForFilename +
+              ".xlsx" + '"')

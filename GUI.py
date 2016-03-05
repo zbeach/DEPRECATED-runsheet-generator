@@ -7,6 +7,7 @@ class GUI:
     def __init__(self):
         self.root = Tk()
         self.root.wm_title("Runsheet Generator")
+        self.output = None
         self.makeGUI()
 
     def makeGUI(self):
@@ -50,6 +51,7 @@ class GUI:
                                     command=self.complete)
         self.confirmButton.pack()
 
+        # Disable window resizing
         self.root.resizable(0, 0)
 
         mainloop()
@@ -68,7 +70,7 @@ class GUI:
     def getRunsheetPath(self):
         self.root.runsheetPath = filedialog.askdirectory()
 
-        # Set text of runsheet path entry to CSV path
+        # Set text of runsheet path entry to runsheet path
         self.runsheetPathEntry.delete(0, END)
         self.runsheetPathEntry.insert(0, self.root.runsheetPath)
 
