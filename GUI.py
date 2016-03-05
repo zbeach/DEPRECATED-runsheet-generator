@@ -50,6 +50,8 @@ class GUI:
                                     command=self.complete)
         self.confirmButton.pack()
 
+        self.root.resizable(0, 0)
+
         mainloop()
 
     def getCSVPath(self):
