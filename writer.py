@@ -36,7 +36,7 @@ class writer:
         # "Radford Transit" header
         self.runsheetHeader1Format = self.workbook.add_format({
             'bold': True,
-            'font_name': 'Arial',
+            'font_name': 'Cambria',
             'font_size': 15,
             'align': 'center'
         })
@@ -44,7 +44,7 @@ class writer:
         self.runsheetHeader2Format = self.workbook.add_format({
             'bold': True,
             'font_color': 'red',
-            'font_name': 'Arial',
+            'font_name': 'Cambria',
             'font_size': 13,
             'align': 'center'
         })
