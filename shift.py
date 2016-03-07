@@ -6,15 +6,15 @@ class shift:
                  startTimeStr, endTimeStr, dateStr, description):
         self.position = self.positionNameToPosition(positionName)
         self.category = self.setCategory(category, positionName)
-        self.lastName = lastName.replace("(Line Instructor)", "(L.I.)").replace(
-            "(City Only Service)", "").replace("(Regular Service)", "")
+        self.lastName = lastName.replace("(Line Instructor)", "(L.I.)")
         self.firstName = firstName
         self.startTime = self.timeStrToTime(startTimeStr)
         self.endTime = self.timeStrToTime(endTimeStr)
         self.date = self.dateStrToDate(dateStr)
         self.description = description
         self.lastOnRoute = False
-        self.positionName = self.setFinalPositionName(positionName)
+        self.positionName = self.setFinalPositionName(positionName).replace(
+            "(City Only Service)", "").replace("(Regular Service)", "")
 
     # Convert position string to position number
     def positionNameToPosition(self, name):
