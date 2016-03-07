@@ -6,7 +6,8 @@ class shift:
                  startTimeStr, endTimeStr, dateStr, description):
         self.position = self.positionNameToPosition(positionName)
         self.category = self.setCategory(category, positionName)
-        self.lastName = lastName.replace("(Line Instructor)", "(L.I.)")
+        self.lastName = lastName.replace("(Line Instructor)", "(L.I.)").replace(
+            "(City Only Service)", "").replace("(Regular Service)", "")
         self.firstName = firstName
         self.startTime = self.timeStrToTime(startTimeStr)
         self.endTime = self.timeStrToTime(endTimeStr)

@@ -35,7 +35,8 @@ class sorter:
                     time.strptime(date, "%m/%d/%Y"):
                 # Filter by CATEGORY_COLUMNs that are route shift categories
                 if row[POSITION_COLUMN] != "Operations Supervisor" and \
-                        row[POSITION_COLUMN] != "Mega Bus Connect":
+                        row[POSITION_COLUMN] != "Mega Bus Connect" and \
+                        row[POSITION_COLUMN] != "Maintenance":
                     # Append new shift object to shifts list with fields from
                     #   current row
                     shifts.append(shift.shift(row[POSITION_COLUMN],
